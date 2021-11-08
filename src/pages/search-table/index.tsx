@@ -9,7 +9,7 @@ import {
   Card,
 } from '@arco-design/web-react';
 import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
+import request from '../../utils/request';
 import {
   UPDATE_FORM_PARAMS,
   UPDATE_LIST,
@@ -82,7 +82,7 @@ function SearchTable() {
 
   function fetchData(current = 1, pageSize = 10, params = {}) {
     dispatch({ type: UPDATE_LOADING, payload: { loading: true } });
-    axios
+    request
       .get(`/api/policy`, {
         params: {
           page: current,

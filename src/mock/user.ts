@@ -8,10 +8,10 @@ setupMock({
     // 用户信息
     Mock.mock(new RegExp('/api/user/userInfo'), () => {
       return {
-        name: '王立群',
+        name: '红孩儿',
         avatar:
           'https://lf1-xgcdn-tos.pstatp.com/obj/vcloud/vadmin/start.8e0e4855ee346a46ccff8ff3e24db27b.png',
-        email: 'wangliqun@email.com',
+        email: 'honghaier@email.com',
         job: 'frontend',
         jobName: '前端开发工程师',
         organization: 'Frontend',

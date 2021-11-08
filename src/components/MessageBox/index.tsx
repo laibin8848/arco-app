@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import request from '../../utils/request';
 import { groupBy } from 'lodash';
 import { Dropdown, Badge, Tabs, Menu, Avatar, Spin } from '@arco-design/web-react';
 import {
@@ -23,7 +23,7 @@ function DropContent() {
 
   function fetchSourceData(showLoading = true) {
     showLoading && setLoading(true);
-    axios
+    request
       .get('/api/message/list')
       .then((res) => {
         setSourceData(res.data);
@@ -35,7 +35,7 @@ function DropContent() {
 
   function readMessage(data: MessageListType) {
     const ids = data.map((item) => item.id);
-    axios
+    request
       .post('/api/message/read', {
         ids,
       })

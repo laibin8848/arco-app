@@ -30,7 +30,7 @@ export const routes = [
       {
         name: '用户管理',
         key: 'system-users/users',
-        componentPath: 'search-table',
+        componentPath: 'sys-users',
       },
       {
         name: '菜单管理',
