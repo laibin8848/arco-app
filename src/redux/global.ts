@@ -23,12 +23,14 @@ export interface GlobalState {
     organization?: string;
     location?: string;
     email?: string;
+    permissions?: string[];
   };
 }
 
 const initialState: GlobalState = {
   theme: defaultTheme,
   settings: defaultSettings,
+  userInfo: {},
 };
 
 export default function(state = initialState, action) {

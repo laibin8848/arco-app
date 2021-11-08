@@ -20,6 +20,7 @@ setupMock({
         locationName: '北京',
         introduction: '王力群并非是一个真实存在的人。',
         personalWebsite: 'https://www.arco.design',
+        permissions: ['dashboard', 'devices-list', 'devices-list/list1', 'system-users', 'system-users/users', 'system-users/menus', 'system-users/roles'],
       };
     });
 

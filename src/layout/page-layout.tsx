@@ -38,10 +38,15 @@ function getFlattenRoutes() {
   return res;
 }
 
-function renderRoutes(locale) {
+function renderRoutes(locale, userInfo) {
+  const permissions = userInfo.permissions || [];
   const nodes = [];
+  if (permissions === []) {
+    return nodes;
+  }
   function travel(_routes, level) {
     return _routes.map((route) => {
+      if (!permissions.includes(route.key)) return;
       const titleDom = (
         <>
           {route.icon} {locale[route.name] || route.name}
@@ -88,6 +93,7 @@ function PageLayout() {
 
   const locale = useLocale();
   const settings = useSelector((state: ReducerState) => state.global.settings);
+  const userInfo = useSelector((state: ReducerState) => state.global.userInfo);
 
   const [collapsed, setCollapsed] = useState<boolean>(false);
   const [selectedKeys, setSelectedKeys] = useState<string[]>(defaultSelectedKeys);
@@ -149,7 +155,7 @@ function PageLayout() {
                 selectedKeys={selectedKeys}
                 autoOpen
               >
-                {renderRoutes(locale)}
+                {renderRoutes(locale, userInfo)}
               </Menu>
             </div>
             <div className={styles.collapseBtn} onClick={toggleCollapse}>
