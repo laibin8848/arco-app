@@ -1,4 +1,4 @@
-import { Alert, Card, Typography } from '@arco-design/web-react';
+import { Card, Typography } from '@arco-design/web-react';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { ReducerState } from '../../redux';
@@ -19,9 +19,8 @@ export default function Welcome() {
         </Typography.Text>
       </div>
       <div className={styles.content}>
-        {/* <Alert type="success" content={locale['welcome.invite']} /> */}
         <Card style={{ marginTop: 20 }}>
-          <div>bbb</div>
+          <div>&nbsp;</div>
         </Card>
       </div>
     </div>

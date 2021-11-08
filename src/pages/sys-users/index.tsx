@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Table, Button, Input, Breadcrumb, Card } from '@arco-design/web-react';
+import { IconPlus } from '@arco-design/web-react/icon';
 import request from '../../utils/request';
 import styles from './style/index.module.less';
-import { IconPlus } from '@arco-design/web-react/icon';
+import SysUserForm from './form';
 
 function sysUsers() {
   const columns = [
@@ -77,6 +78,7 @@ function sysUsers() {
 
   return (
     <div className={styles.container}>
+      <SysUserForm />
       <Breadcrumb style={{ marginBottom: 20 }}>
         <Breadcrumb.Item>用户权限管理</Breadcrumb.Item>
         <Breadcrumb.Item>用户列表</Breadcrumb.Item>
