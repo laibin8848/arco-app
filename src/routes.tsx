@@ -5,18 +5,18 @@ export const defaultRoute = 'welcome';
 
 export const routes = [
   {
-    name: 'menu.welcome',
+    name: '监控面板',
     key: 'welcome',
     icon: <IconGift />,
     componentPath: 'welcome',
   },
   {
-    name: 'menu.list',
+    name: '数据列表',
     key: 'list',
     icon: <IconList />,
     children: [
       {
-        name: 'menu.list.searchTable',
+        name: '设备列表',
         key: 'list/search-table',
         componentPath: 'search-table',
       },

@@ -1,18 +1,18 @@
 import React from 'react';
 import {
-  Tooltip,
-  Button,
+  // Tooltip,
+  // Button,
   Avatar,
-  Select,
+  // Select,
   Typography,
   Dropdown,
   Menu,
   Space,
 } from '@arco-design/web-react';
-import { IconSunFill, IconMoonFill } from '@arco-design/web-react/icon';
+// import { IconSunFill, IconMoonFill } from '@arco-design/web-react/icon';
 import { useSelector, useDispatch } from 'react-redux';
 import { ReducerState } from '../../redux';
-import useLocale from '../../utils/useLocale';
+// import useLocale from '../../utils/useLocale';
 import Logo from '../../assets/logo.svg';
 import history from '../../history';
 
@@ -21,10 +21,10 @@ import MessageBox from '../MessageBox';
 import styles from './style/index.module.less';
 
 function Navbar() {
-  const locale = useLocale();
-  const theme = useSelector((state: ReducerState) => state.global.theme);
+  // const locale = useLocale();
+  // const theme = useSelector((state: ReducerState) => state.global.theme);
   const userInfo = useSelector((state: ReducerState) => state.global.userInfo);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   function logout() {
     localStorage.setItem('userStatus', 'logout');
@@ -43,7 +43,7 @@ function Navbar() {
         <Space size={8}>
           <Logo />
           <Typography.Title style={{ margin: 0, fontSize: 18 }} heading={5}>
-            Arco Design Pro
+            Iot platform
           </Typography.Title>
         </Space>
       </div>
@@ -51,7 +51,7 @@ function Navbar() {
         <li>
           <MessageBox />
         </li>
-        <li>
+        {/* <li>
           <a>{locale['navbar.docs']}</a>
         </li>
         <li>
@@ -93,7 +93,7 @@ function Navbar() {
               style={{ fontSize: 20 }}
             />
           </Tooltip>
-        </li>
+        </li> */}
         {userInfo && (
           <li>
             <Avatar size={24} style={{ marginRight: 8 }}>

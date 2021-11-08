@@ -2,7 +2,7 @@
 
 export default function clipboard(text) {
   if (navigator.clipboard) {
-    return navigator.clipboard.writeText(text).catch(function (err) {
+    return navigator.clipboard.writeText(text).catch(function(err) {
       throw err !== undefined
         ? err
         : new DOMException('The request is not allowed', 'NotAllowedError');
