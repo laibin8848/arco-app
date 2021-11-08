@@ -10,7 +10,6 @@ import axios from 'axios';
 import rootReducer from './redux';
 import history from './history';
 import PageLayout from './layout/page-layout';
-import Setting from './components/Settings';
 import { GlobalContext } from './context';
 import './style/index.less';
 import './mock';
@@ -78,7 +77,6 @@ function Index() {
               <Route path="/user/login" component={Login} />
               <Route path="/" component={PageLayout} />
             </Switch>
-            <Setting />
           </GlobalContext.Provider>
         </Provider>
       </ConfigProvider>

@@ -10,7 +10,7 @@ export default (props: FooterProps = {}) => {
   const { className, ...restProps } = props;
   return (
     <Footer className={cs(styles.footer, className)} {...restProps}>
-      Iot platform
+      IOT Platform
     </Footer>
   );
 };

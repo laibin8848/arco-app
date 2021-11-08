@@ -52,6 +52,8 @@ function SearchTable() {
     {
       title: locale['searchTable.columns.operations'],
       dataIndex: 'operations',
+      width: 200,
+      fixed: 'right',
       render: () => (
         <div className={styles.operations}>
           <Button type="text" size="small">
@@ -119,13 +121,14 @@ function SearchTable() {
   return (
     <div className={styles.container}>
       <Breadcrumb style={{ marginBottom: 20 }}>
-        <Breadcrumb.Item>{locale['menu.list']}</Breadcrumb.Item>
-        <Breadcrumb.Item>{locale['menu.list.searchTable']}</Breadcrumb.Item>
+        <Breadcrumb.Item>数据列表</Breadcrumb.Item>
+        <Breadcrumb.Item>设备列表</Breadcrumb.Item>
       </Breadcrumb>
       <Card bordered={false}>
         <div className={styles.toolbar}>
           <div>
-            <Button type="primary">{locale['searchTable.addPolicy']}</Button>
+            &nbsp;
+            {/* <Button type="primary">{locale['searchTable.addPolicy']}</Button> */}
           </div>
           <div>
             <DatePicker.RangePicker style={{ marginRight: 8 }} onChange={onDateChange} />
@@ -138,10 +141,12 @@ function SearchTable() {
           </div>
         </div>
         <Table
+          borderCell
           rowKey="id"
-          loading={loading}
+          loading={{ loading: loading, size: 18, dot: true, element: null }}
           onChange={onChangeTable}
           pagination={pagination}
+          scroll={{ x: 1400 }}
           columns={columns}
           data={data}
         />

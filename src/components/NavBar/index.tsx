@@ -10,7 +10,7 @@ import {
   Space,
 } from '@arco-design/web-react';
 // import { IconSunFill, IconMoonFill } from '@arco-design/web-react/icon';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { ReducerState } from '../../redux';
 // import useLocale from '../../utils/useLocale';
 import Logo from '../../assets/logo.svg';
@@ -43,7 +43,7 @@ function Navbar() {
         <Space size={8}>
           <Logo />
           <Typography.Title style={{ margin: 0, fontSize: 18 }} heading={5}>
-            Iot platform
+            IOT Platform
           </Typography.Title>
         </Space>
       </div>
