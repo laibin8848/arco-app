@@ -19,7 +19,7 @@ export const routes = [
       {
         name: '客户端列表',
         key: 'devices-setting/deviceslist',
-        componentPath: 'search-table',
+        componentPath: 'devices-list',
         icon: <IconRobot />
       },
       {
