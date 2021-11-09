@@ -27,7 +27,8 @@ function Navbar() {
   // const dispatch = useDispatch();
 
   function logout() {
-    localStorage.setItem('userStatus', 'logout');
+    localStorage.removeItem('token');
+    localStorage.removeItem('loginUserId');
     history.push('/user/login');
   }
 
@@ -107,7 +108,7 @@ function Navbar() {
                 </Menu>
               }
             >
-              <Typography.Text className={styles.username}>{userInfo.name}</Typography.Text>
+              <Typography.Text className={styles.username}>{userInfo.username}</Typography.Text>
             </Dropdown>
           </li>
         )}

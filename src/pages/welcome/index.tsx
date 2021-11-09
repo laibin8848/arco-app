@@ -15,7 +15,7 @@ export default function Welcome() {
           {locale['welcome.title.welcome']}
         </Typography.Title>
         <Typography.Text type="secondary">
-          {userInfo.name}, {userInfo.email}
+          {userInfo.username}, {userInfo.realName}
         </Typography.Text>
       </div>
       <div className={styles.content}>

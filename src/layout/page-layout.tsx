@@ -39,7 +39,7 @@ function getFlattenRoutes() {
 }
 
 function renderRoutes(locale, userInfo) {
-  const permissions = userInfo.permissions || [];
+  const permissions = userInfo.userMenus || [];
   const nodes = [];
   if (permissions === []) {
     return nodes;

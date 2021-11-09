@@ -6,22 +6,40 @@ setupMock({
     Mock.XHR.prototype.withCredentials = true;
 
     // 用户信息
-    Mock.mock(new RegExp('/api/user/userInfo'), () => {
+    Mock.mock(new RegExp('/admin-backend/sys/user/getById'), () => {
       return {
-        name: '红孩儿',
-        avatar:
-          'https://lf1-xgcdn-tos.pstatp.com/obj/vcloud/vadmin/start.8e0e4855ee346a46ccff8ff3e24db27b.png',
-        email: 'honghaier@email.com',
-        job: 'frontend',
-        jobName: '前端开发工程师',
-        organization: 'Frontend',
-        organizationName: '前端',
-        location: 'beijing',
-        locationName: '北京',
-        introduction: '王力群并非是一个真实存在的人。',
-        personalWebsite: 'https://www.arco.design',
-        permissions: ['dashboard', 'devices-list', 'devices-list/list1', 'system-users', 'system-users/users', 'system-users/menus', 'system-users/roles'],
-      };
+        "success":true,
+        "code":"E000",
+        "message":"成功",
+        "data":{
+            "adminFlag_dictText":"超级管理员",
+            "sex_dictText":"未知",
+            "sex":0,
+            "mobile":"",
+            "updateTime":null,
+            "avatar":"",
+            "status_dictText":"正常",
+            "realName":"超级管理员",
+            "userRoles":[
+                {
+                    "roleId":null,
+                    "roleCode":"super_admin",
+                    "roleName":"超级管理员",
+                    "userId":"0"
+                }
+            ],
+            "userMenus":['dashboard', 'devices-list', 'devices-list/list1', 'system-users', 'system-users/users', 'system-users/menus', 'system-users/roles'],
+            "createBy":"",
+            "createTime":null,
+            "updateBy":"",
+            "id":"0",
+            "adminFlag":1,
+            "email":"",
+            "username":"admin",
+            "status":1
+        },
+        "timestamp":1636441541533
+      }
     });
 
     // 登录
@@ -29,24 +47,31 @@ setupMock({
       const { username, password } = JSON.parse(params.body);
       if (!username) {
         return {
-          status: 'error',
-          msg: '用户名不能为空',
+          "code":"E001",
+          "message":"用户名不能为空",
         };
       }
       if (!password) {
         return {
-          status: 'error',
-          msg: '密码不能为空',
+          "code":"E001",
+          "message":"用户名不能为空",
         };
       }
       if (username === 'admin' && password === 'admin') {
         return {
-          status: 'ok',
+          "code":"E000",
+          "message":"登录成功",
+          "data": {
+            token: '123',
+            userInfo: {
+              userId: '0'
+            }
+          }
         };
       }
       return {
-        status: 'error',
-        msg: '账号或者密码错误',
+        "code":"E001",
+        "message":"账号或者密码错误",
       };
     });
   },

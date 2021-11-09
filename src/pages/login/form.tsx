@@ -4,15 +4,14 @@ import React, { useEffect, useState } from 'react';
 import request from '../../utils/request';
 import styles from './style/index.module.less';
 import history from '../../history';
-import Captcha from '../../components/Captcha';
+// import Captcha from '../../components/Captcha';
 
 export default function LoginForm() {
   const [form] = Form.useForm();
-  const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [rememberPassword, setRememberPassword] = useState(false);
 
-  function afterLoginSuccess(params) {
+  function afterLoginSuccess(params, loginInfo) {
     // 记住密码
     if (rememberPassword) {
       localStorage.setItem('loginParams', JSON.stringify(params));
@@ -20,7 +19,8 @@ export default function LoginForm() {
       localStorage.removeItem('loginParams');
     }
     // 记录登录状态
-    localStorage.setItem('userStatus', 'login');
+    localStorage.setItem('token', loginInfo?.token || '');
+    localStorage.setItem('loginUserId', loginInfo?.userInfo?.userId || '');
     // 跳转首页
     window.location.href = history.createHref({
       pathname: '/',
@@ -28,10 +28,9 @@ export default function LoginForm() {
   }
 
   function login(params) {
-    setErrorMessage('');
     setLoading(true);
-    request.post('/admin-backend/login', params).then(() => {
-      afterLoginSuccess(params);
+    request.post('/admin-backend/login', params).then(res => {
+      afterLoginSuccess(params, res.data);
     }).finally(() => {
       setLoading(false);
     });
@@ -52,20 +51,20 @@ export default function LoginForm() {
     }
   }, []);
 
-  const setCheckKey = (value: string)=> {
-    form.setFieldsValue({
-      checkKey: value
-    });
-  };
+  // const setCheckKey = (value: string)=> {
+  //   form.setFieldsValue({
+  //     checkKey: value
+  //   });
+  // };
 
   return (
     <div className={styles['login-form-wrapper']}>
       <div className={styles['login-form-title']}>登录 IOT Platform</div>
-      <div className={styles['login-form-error-msg']}>{errorMessage}</div>
+      <div className={styles['login-sub-title']}>&nbsp;</div>
       <Form className={styles['login-form']} layout="vertical" form={form} onSubmit={onSubmit}>
-        <Form.Item field="checkKey" style={{display: 'none'}}>
+        {/* <Form.Item field="checkKey" style={{display: 'none'}}>
           <Input />
-        </Form.Item>
+        </Form.Item> */}
         <Form.Item field="username" rules={[{ required: true, message: '用户名不能为空' }]}>
           <Input prefix={<IconUser />} placeholder="用户名：admin" />
         </Form.Item>
@@ -75,10 +74,12 @@ export default function LoginForm() {
             placeholder="密码：admin"
           />
         </Form.Item>
-        <Form.Item field="captcha" rules={[{ required: true, message: '验证码不能为空' }]}>
-          <Input placeholder="请输入验证码" />
-        </Form.Item>
-        <Captcha captchaReady={setCheckKey} />
+        {/* <Form.Item field="captcha" rules={[{ required: true, message: '验证码不能为空' }]}>
+          <div style={{display: 'flex'}}>
+            <Input placeholder="请输入验证码" />
+            <Captcha captchaReady={setCheckKey} />
+          </div>
+        </Form.Item> */}
         <Space size={16} direction="vertical">
           <div className={styles['login-form-password-actions']}>
             <Checkbox checked={rememberPassword} onChange={setRememberPassword}>

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Notification } from '@arco-design/web-react';
 
 const service = axios.create({
   baseURL: '',
@@ -7,7 +8,7 @@ const service = axios.create({
 
 service.interceptors.request.use(
   (config) => {
-    config.headers['x-access-token'] = 'token';
+    config.headers['x-access-token'] = localStorage.getItem('token') || '';
     return config;
   },
   (error) => {
@@ -22,7 +23,8 @@ service.interceptors.response.use(
       if (res.code === 'E503' || res.code === 'E401') {
         return res;
       }
-      // throw new Error(res.message);
+      Notification.error({ title: '错误', content: res.message });
+      throw new Error(res.message);
     } else {
       return res;
     }

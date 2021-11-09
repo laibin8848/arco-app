@@ -17,13 +17,14 @@ export interface GlobalState {
   theme?: string;
   settings?: typeof defaultSettings;
   userInfo?: {
-    name?: string;
+    username?: string;
     avatar?: string;
-    job?: string;
-    organization?: string;
+    userId?: string;
+    realName?: string;
     location?: string;
     email?: string;
-    permissions?: string[];
+    adminFlag?: string;
+    userMenus?: string[];
   };
 }
 

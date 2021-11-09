@@ -43,8 +43,8 @@ function Index() {
     }
   }
 
-  function fetchUserInfo() {
-    request.get('/api/user/userInfo').then((res) => {
+  function fetchUserInfo(userId) {
+    request.get(`/admin-backend/sys/user/getById/${userId}`).then((res) => {
       store.dispatch({
         type: 'update-userInfo',
         payload: { userInfo: res.data },
@@ -57,8 +57,9 @@ function Index() {
   }, []);
 
   useEffect(() => {
-    if (checkLogin()) {
-      fetchUserInfo();
+    const userId = checkLogin();
+    if (userId !== '') {
+      fetchUserInfo(userId);
     } else {
       history.push('/user/login');
     }
