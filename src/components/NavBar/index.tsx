@@ -9,16 +9,16 @@ import {
   Menu,
   Space,
 } from '@arco-design/web-react';
-// import { IconSunFill, IconMoonFill } from '@arco-design/web-react/icon';
+import { IconLock } from '@arco-design/web-react/icon';
 import { useSelector } from 'react-redux';
 import { ReducerState } from '../../redux';
 // import useLocale from '../../utils/useLocale';
 import Logo from '../../assets/logo.svg';
 import history from '../../history';
-
 import MessageBox from '../MessageBox';
-
 import styles from './style/index.module.less';
+import useOpenModal from '../../hooks/useOpenModal';
+import ChangePassword from '../ChangePassword';
 
 function Navbar() {
   // const locale = useLocale();
@@ -96,21 +96,26 @@ function Navbar() {
           </Tooltip>
         </li> */}
         {userInfo && (
-          <li>
-            <Avatar size={24} style={{ marginRight: 8 }}>
-              <img alt="avatar" src={userInfo.avatar} />
-            </Avatar>
-            <Dropdown
-              trigger="click"
-              droplist={
-                <Menu onClickMenuItem={onMenuItemClick}>
-                  <Menu.Item key="logout">登出</Menu.Item>
-                </Menu>
-              }
-            >
-              <Typography.Text className={styles.username}>{userInfo.username}</Typography.Text>
-            </Dropdown>
-          </li>
+          <>
+            <li style={{cursor: 'pointer'}} onClick={()=> {useOpenModal(ChangePassword, { detail: userInfo })}}>
+              修改密码<IconLock style={{marginLeft: '4px'}} />
+            </li>
+            <li>
+              <Avatar size={24} style={{ marginRight: 8 }}>
+                <img alt="avatar" src={userInfo.avatar} />
+              </Avatar>
+              <Dropdown
+                trigger="click"
+                droplist={
+                  <Menu onClickMenuItem={onMenuItemClick}>
+                    <Menu.Item key="logout">登出</Menu.Item>
+                  </Menu>
+                }
+              >
+                <Typography.Text className={styles.username}>{userInfo.username}</Typography.Text>
+              </Dropdown>
+            </li>
+          </>
         )}
       </ul>
     </div>

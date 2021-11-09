@@ -21,11 +21,12 @@ function SysUserForm(props) {
 
   const _onOk = () => {
     form.validate().then(values => {
-      setConfirmLoading(true)
+      setConfirmLoading(true);
       saveUser(values).then(()=> {
-        setConfirmLoading(false)
-        onOk()
-      })
+        onOk();
+      }).finally(()=> {
+        setConfirmLoading(false);
+      });
     })
   }
 
