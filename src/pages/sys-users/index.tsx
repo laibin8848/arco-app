@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Table, Button, Input, Breadcrumb, Card } from '@arco-design/web-react';
-import { IconPlus } from '@arco-design/web-react/icon';
+import { Table, Button, Input, Breadcrumb, Card, Message, Modal } from '@arco-design/web-react';
+import { IconPlus, IconDelete } from '@arco-design/web-react/icon';
 import styles from './style/index.module.less';
 import SysUserForm from './form';
 import useOpenModal from '../../hooks/useOpenModal';
 import useTableQuery from '../../hooks/useTableQuery';
+import { deleteUser, deleteUserBatch } from '../../services/users';
 
 interface SysuserFilter {
   current: number;
@@ -15,6 +16,7 @@ interface SysuserFilter {
 function sysUsers() {
   const [filter, setFilter] = useState<SysuserFilter>({ current: 1, pageSize: 10 });
   const { loading: userLoading, data: userListData } = useTableQuery('/admin-backend/sys/user/listByPage', filter);
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
   function onChangeTable(pagination) {
     const { current , pageSize } = pagination;
@@ -22,7 +24,28 @@ function sysUsers() {
   }
 
   function onSearch(username) {
+    Message.success('数据刷新……');
     setFilter({ ...filter, username });
+  }
+
+  function onDelete(id = '') {
+    const empty = id === '' && selectedRowKeys.length === 0;
+    if(empty) {
+      Message.error('请选择需要删除的数据！');
+      return;
+    }
+    const batch = id === '';
+    const callApi = batch ? deleteUserBatch : deleteUser;
+    const ids = batch ? selectedRowKeys.join(',') : id;
+    Modal.confirm({
+      title: '确定继续操作？',
+      onOk: ()=> {
+        callApi(ids).then(()=> {
+          onSearch('');
+        })
+      }
+    });
+
   }
 
   const columns = [
@@ -46,7 +69,7 @@ function sysUsers() {
           </Button>
           {
             !item.adminFlag && (
-              <Button type="text" status="danger" size="mini">
+              <Button type="text" status="danger" size="mini" onClick={()=> { onDelete(item.id) }}>
                 删除
               </Button>
             )
@@ -75,6 +98,9 @@ function sysUsers() {
             <Button size="small" type="primary" icon={<IconPlus />} onClick={()=> {useOpenModal(SysUserForm, { onOk: ()=> { onSearch('') } })}}>
               新增用户
             </Button>
+            <Button onClick={()=> { onDelete('') }} style={{marginLeft: '10px'}} size="small" type="default" icon={<IconDelete />}>
+              批量删除
+            </Button>
           </div>
           <div>
             <Input.Search
@@ -93,6 +119,13 @@ function sysUsers() {
           pagination={pagination}
           scroll={{ x: 1400 }}
           columns={columns}
+          rowSelection={{
+            type: 'checkbox',
+            selectedRowKeys,
+            onChange: (selectedRowKeys) => {
+              setSelectedRowKeys(selectedRowKeys);
+            }
+          }}
           data={userListData?.records}
         />
       </Card>

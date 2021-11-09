@@ -1,6 +1,6 @@
 import React, { useState, memo } from 'react';
 import { Form, Input, Modal } from '@arco-design/web-react';
-import { saveUser } from '../../services/users'
+import { saveUser } from '../../services/users';
 
 const FormItem = Form.Item;
 
