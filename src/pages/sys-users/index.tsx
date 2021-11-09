@@ -1,11 +1,30 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { Table, Button, Input, Breadcrumb, Card } from '@arco-design/web-react';
 import { IconPlus } from '@arco-design/web-react/icon';
-import request from '../../utils/request';
 import styles from './style/index.module.less';
 import SysUserForm from './form';
+import useOpenModal from '../../hooks/useOpenModal';
+import useTableQuery from '../../hooks/useTableQuery';
+
+interface SysuserFilter {
+  current: number;
+  pageSize: number;
+  username?: string;
+};
 
 function sysUsers() {
+  const [filter, setFilter] = useState<SysuserFilter>({ current: 1, pageSize: 10 });
+  const { loading: userLoading, data: userListData } = useTableQuery('/api/sys/users', filter);
+
+  function onChangeTable(pagination) {
+    const { current , pageSize } = pagination;
+    setFilter({ current, pageSize });
+  }
+
+  function onSearch(username) {
+    setFilter({ ...filter, username });
+  }
+
   const columns = [
     { title: '用户ID', dataIndex: 'id' },
     { title: '用户名', dataIndex: 'name' },
@@ -31,54 +50,15 @@ function sysUsers() {
     },
   ];
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const [data, setData] = useState([]);
-  const [pagination, setPagination] = useState({
-    sizeCanChange: true,
-    showTotal: true,
-    pageSize: 10,
-    current: 1,
-    pageSizeChangeResetCurrent: true,
-    total: 0,
-  });
-  const [dataLoading, setLoading] = useState(false);
-  const searchParsams = useRef({
-    username: '',
-  });
-
-  function fetchData(current = 1, pageSize = 10, params = {}) {
-    setLoading(true);
-    request
-      .get(`/api/sys/users`, {
-        params: {
-          page: current,
-          pageSize,
-          ...params,
-        },
-      })
-      .then((res) => {
-        setData(res.data.list);
-        setLoading(false);
-        setPagination({ ...pagination, current, pageSize, total: res.data.total });
-      });
-  }
-
-  function onChangeTable(pagination) {
-    const { current, pageSize } = pagination;
-    fetchData(current, pageSize, { ...searchParsams.current });
-  }
-
-  function onSearch(keyword) {
-    searchParsams.current.username = keyword;
-    fetchData(1, pagination.pageSize, { ...searchParsams.current });
-  }
+  const pagination = {
+    ...filter,
+    total: userListData?.total,
+    showSizeChanger: true,
+    showTotal: (total) => `共 ${total} 条`,
+  };
 
   return (
     <div className={styles.container}>
-      <SysUserForm />
       <Breadcrumb style={{ marginBottom: 20 }}>
         <Breadcrumb.Item>用户权限管理</Breadcrumb.Item>
         <Breadcrumb.Item>用户列表</Breadcrumb.Item>
@@ -86,7 +66,7 @@ function sysUsers() {
       <Card bordered={false}>
         <div className={styles.toolbar}>
           <div>
-            <Button size="small" type="primary" icon={<IconPlus />}>
+            <Button size="small" type="primary" icon={<IconPlus />} onClick={()=> {useOpenModal(SysUserForm, {})}}>
               新增用户
             </Button>
           </div>
@@ -102,12 +82,12 @@ function sysUsers() {
         <Table
           borderCell
           rowKey="id"
-          loading={{ loading: dataLoading, size: 18, dot: true, element: null }}
+          loading={{ loading: userLoading, size: 18, dot: true, element: null }}
           onChange={onChangeTable}
           pagination={pagination}
           scroll={{ x: 1400 }}
           columns={columns}
-          data={data}
+          data={userListData?.list}
         />
       </Card>
     </div>

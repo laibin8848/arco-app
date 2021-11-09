@@ -1,11 +1,12 @@
 import React, { useState, memo } from 'react';
-import { Form, Input, Select } from '@arco-design/web-react';
-import CustomerModal from '../../components/CustomerModal';
+import { Form, Input, Select, Modal } from '@arco-design/web-react';
 
 const FormItem = Form.Item;
 
-function SysUserForm() {
-  const [formVisable, setVisable] = useState(true);
+function SysUserForm(props) {
+  const { visible, detail = {}, onCancel, onOk, ...restProps } = props;
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const modalTitle = detail === {} ? '新增用户' : '编辑用户';
 
   const formItemLayout = {
     labelCol: {
@@ -17,9 +18,24 @@ function SysUserForm() {
   };
   const [form] = Form.useForm();
 
+  const _onOk = () => {
+    setConfirmLoading(true)
+    form.validate().then(res => {
+      setConfirmLoading(false)
+      onOk()
+    })
+  }
+
   return (
     <div>
-      <CustomerModal title='Add User' visible={formVisable} onCancel={() => setVisable(false)}>
+      <Modal 
+        {...restProps}
+        title={modalTitle}
+        visible={visible} 
+        onCancel={onCancel} 
+        onOk={_onOk} 
+        confirmLoading={confirmLoading}
+      >
         <Form
           {...formItemLayout}
           form={form}
@@ -33,7 +49,7 @@ function SysUserForm() {
             <Select options={['男', '女']} />
           </FormItem>
         </Form>
-      </CustomerModal>
+      </Modal>
     </div>
   );
 }
