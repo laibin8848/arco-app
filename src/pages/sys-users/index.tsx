@@ -13,7 +13,7 @@ interface SysuserFilter {
   username?: string;
 };
 
-function sysUsers() {
+function SysUsers() {
   const [filter, setFilter] = useState<SysuserFilter>({ current: 1, pageSize: 10 });
   const { loading: userLoading, data: userListData } = useTableQuery('/admin-backend/sys/user/listByPage', filter);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -133,4 +133,4 @@ function sysUsers() {
   );
 }
 
-export default sysUsers;
+export default SysUsers;

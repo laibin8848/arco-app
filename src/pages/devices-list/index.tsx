@@ -13,7 +13,7 @@ interface SysuserFilter {
   username?: string;
 };
 
-function sysUsers() {
+function DevicesList() {
   const [filter, setFilter] = useState<SysuserFilter>({ current: 1, pageSize: 10 });
   const { loading: userLoading, data: userListData } = useTableQueryGet('/admin-backend/mqttUser/listPage', filter);
 
@@ -49,6 +49,7 @@ function sysUsers() {
           <Button type="text" status="danger" size="mini">
             踢除
           </Button>
+          {/* 下线，修改，删除 */}
         </div>
       ),
     },
@@ -98,4 +99,4 @@ function sysUsers() {
   );
 }
 
-export default sysUsers;
+export default DevicesList;
