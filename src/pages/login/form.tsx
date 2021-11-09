@@ -1,13 +1,13 @@
 import { Form, Input, Checkbox, Link, Button, Space } from '@arco-design/web-react';
-import { FormInstance } from '@arco-design/web-react/es/Form';
 import { IconLock, IconUser } from '@arco-design/web-react/icon';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import request from '../../utils/request';
 import styles from './style/index.module.less';
 import history from '../../history';
+import Captcha from '../../components/Captcha';
 
 export default function LoginForm() {
-  const formRef = useRef<FormInstance>();
+  const [form] = Form.useForm();
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [rememberPassword, setRememberPassword] = useState(false);
@@ -30,25 +30,15 @@ export default function LoginForm() {
   function login(params) {
     setErrorMessage('');
     setLoading(true);
-    request
-      .post('/admin-backend/login', params)
-      .then((res) => {
-        const { status, msg } = res.data;
-        if (status === 'ok') {
-          afterLoginSuccess(params);
-        } else {
-          setErrorMessage(msg || '登录出错，请刷新重试');
-        }
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    request.post('/admin-backend/login', params).then(() => {
+      afterLoginSuccess(params);
+    }).finally(() => {
+      setLoading(false);
+    });
   }
 
-  function onSubmitClick() {
-    formRef.current.validate().then((values) => {
-      login(values);
-    });
+  function onSubmit(values) {
+    login(values);
   }
 
   // 读取 localStorage，设置初始值
@@ -56,28 +46,39 @@ export default function LoginForm() {
     const params = localStorage.getItem('loginParams');
     const rememberPassword = !!params;
     setRememberPassword(rememberPassword);
-    if (formRef.current && rememberPassword) {
+    if (form && rememberPassword) {
       const parseParams = JSON.parse(params);
-      formRef.current.setFieldsValue(parseParams);
+      form.setFieldsValue(parseParams);
     }
   }, []);
+
+  const setCheckKey = (value: string)=> {
+    form.setFieldsValue({
+      checkKey: value
+    });
+  };
 
   return (
     <div className={styles['login-form-wrapper']}>
       <div className={styles['login-form-title']}>登录 IOT Platform</div>
-      {/* <div className={styles['login-form-sub-title']}>登录 IOT Platform</div> */}
       <div className={styles['login-form-error-msg']}>{errorMessage}</div>
-      <Form className={styles['login-form']} layout="vertical" ref={formRef}>
-        <Form.Item field="userName" rules={[{ required: true, message: '用户名不能为空' }]}>
-          <Input prefix={<IconUser />} placeholder="用户名：admin" onPressEnter={onSubmitClick} />
+      <Form className={styles['login-form']} layout="vertical" form={form} onSubmit={onSubmit}>
+        <Form.Item field="checkKey" style={{display: 'none'}}>
+          <Input />
+        </Form.Item>
+        <Form.Item field="username" rules={[{ required: true, message: '用户名不能为空' }]}>
+          <Input prefix={<IconUser />} placeholder="用户名：admin" />
         </Form.Item>
         <Form.Item field="password" rules={[{ required: true, message: '密码不能为空' }]}>
           <Input.Password
             prefix={<IconLock />}
             placeholder="密码：admin"
-            onPressEnter={onSubmitClick}
           />
         </Form.Item>
+        <Form.Item field="captcha" rules={[{ required: true, message: '验证码不能为空' }]}>
+          <Input placeholder="请输入验证码" />
+        </Form.Item>
+        <Captcha captchaReady={setCheckKey} />
         <Space size={16} direction="vertical">
           <div className={styles['login-form-password-actions']}>
             <Checkbox checked={rememberPassword} onChange={setRememberPassword}>
@@ -85,7 +86,7 @@ export default function LoginForm() {
             </Checkbox>
             <Link>忘记密码？</Link>
           </div>
-          <Button type="primary" long onClick={onSubmitClick} loading={loading}>
+          <Button type="primary" long htmlType="submit" loading={loading}>
             登录
           </Button>
           <Button type="text" long className={styles['login-form-register-btn']}>
