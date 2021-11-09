@@ -31,7 +31,7 @@ export default function LoginForm() {
     setErrorMessage('');
     setLoading(true);
     request
-      .post('/api/user/login', params)
+      .post('/admin-backend/login', params)
       .then((res) => {
         const { status, msg } = res.data;
         if (status === 'ok') {

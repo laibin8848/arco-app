@@ -12,7 +12,7 @@ import history from './history';
 import PageLayout from './layout/page-layout';
 import { GlobalContext } from './context';
 import './style/index.less';
-import './mock';
+// import './mock';
 import Login from './pages/login';
 import checkLogin from './utils/checkLogin';
 
