@@ -6,10 +6,12 @@ function useTableQuery(url, params) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    const { current } = params;
+    const postData = { ...params, pageNo: current }
     setLoading(true);
-    request.get(url, { params }).then((res) => {
-        setData(res.data);
-        setLoading(false);
+    request.post(url, postData).then((res) => {
+      setData(res.data);
+      setLoading(false);
     }).catch(() => {
       setLoading(false);
     })

@@ -121,7 +121,7 @@ function SearchTable() {
   return (
     <div className={styles.container}>
       <Breadcrumb style={{ marginBottom: 20 }}>
-        <Breadcrumb.Item>数据列表</Breadcrumb.Item>
+        <Breadcrumb.Item>设备管理</Breadcrumb.Item>
         <Breadcrumb.Item>设备列表</Breadcrumb.Item>
       </Breadcrumb>
       <Card bordered={false}>

@@ -39,14 +39,15 @@ function getFlattenRoutes() {
 }
 
 function renderRoutes(locale, userInfo) {
+  const adminFlag = userInfo.adminFlag;
   const permissions = userInfo.userMenus || [];
   const nodes = [];
-  if (permissions === []) {
+  if (permissions === [] && !adminFlag) {
     return nodes;
   }
   function travel(_routes, level) {
     return _routes.map((route) => {
-      if (!permissions.includes(route.key)) return;
+      if (!permissions && !adminFlag) return;
       const titleDom = (
         <>
           {route.icon} {locale[route.name] || route.name}

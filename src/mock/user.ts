@@ -28,7 +28,7 @@ setupMock({
                     "userId":"0"
                 }
             ],
-            "userMenus":['dashboard', 'devices-list', 'devices-list/list1', 'system-users', 'system-users/users', 'system-users/menus', 'system-users/roles'],
+            "userMenus":['dashboard', 'devices-setting', 'devices-setting/list1', 'system-users', 'system-users/users', 'system-users/menus', 'system-users/roles'],
             "createBy":"",
             "createTime":null,
             "updateBy":"",

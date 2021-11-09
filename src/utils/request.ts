@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Notification } from '@arco-design/web-react';
+import history from '../history';
 
 const service = axios.create({
   baseURL: '',
@@ -21,6 +22,9 @@ service.interceptors.response.use(
     const res = response.data;
     if (res.code !== 'E000') {
       if (res.code === 'E503' || res.code === 'E401') {
+        localStorage.removeItem('token');
+        localStorage.removeItem('loginUserId');
+        history.push('/user/login');
         return res;
       }
       Notification.error({ title: '错误', content: res.message });

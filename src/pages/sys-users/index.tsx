@@ -14,7 +14,7 @@ interface SysuserFilter {
 
 function sysUsers() {
   const [filter, setFilter] = useState<SysuserFilter>({ current: 1, pageSize: 10 });
-  const { loading: userLoading, data: userListData } = useTableQuery('/api/sys/users', filter);
+  const { loading: userLoading, data: userListData } = useTableQuery('/admin-backend/sys/user/listByPage', filter);
 
   function onChangeTable(pagination) {
     const { current , pageSize } = pagination;
@@ -26,25 +26,31 @@ function sysUsers() {
   }
 
   const columns = [
-    { title: '用户ID', dataIndex: 'id' },
-    { title: '用户名', dataIndex: 'name' },
-    { title: '角色', dataIndex: 'role' },
-    { title: '电话号码', dataIndex: 'phone' },
-    { title: '创建时间', dataIndex: 'createdTime' },
+    { title: '用户ID', dataIndex: 'id', width: 190, align: 'center' },
+    { title: '用户名', dataIndex: 'username', align: 'center' },
+    { title: '真实姓名', dataIndex: 'realName', align: 'center' },
+    { title: '邮箱', dataIndex: 'email', align: 'center' },
+    { title: '电话号码', dataIndex: 'mobile', align: 'center' },
+    { title: '超级管理员', dataIndex: 'adminFlag', align: 'center' },
+    { title: '创建时间', dataIndex: 'createTime', align: 'center' },
     {
       title: '操作',
       dataIndex: 'operations',
-      width: 150,
+      width: 140,
       fixed: 'right',
       align: 'center',
-      render: () => (
+      render: (col, item) => (
         <div className={styles.operations}>
-          <Button type="text" size="mini">
+          <Button type="text" size="mini" onClick={()=> {useOpenModal(SysUserForm, { detail: item, onOk: ()=> { onSearch('') } })}}>
             编辑
           </Button>
-          <Button type="text" status="danger" size="mini">
-            删除
-          </Button>
+          {
+            !item.adminFlag && (
+              <Button type="text" status="danger" size="mini">
+                删除
+              </Button>
+            )
+          }
         </div>
       ),
     },
@@ -66,7 +72,7 @@ function sysUsers() {
       <Card bordered={false}>
         <div className={styles.toolbar}>
           <div>
-            <Button size="small" type="primary" icon={<IconPlus />} onClick={()=> {useOpenModal(SysUserForm, {})}}>
+            <Button size="small" type="primary" icon={<IconPlus />} onClick={()=> {useOpenModal(SysUserForm, { onOk: ()=> { onSearch('') } })}}>
               新增用户
             </Button>
           </div>
@@ -87,7 +93,7 @@ function sysUsers() {
           pagination={pagination}
           scroll={{ x: 1400 }}
           columns={columns}
-          data={userListData?.list}
+          data={userListData?.records}
         />
       </Card>
     </div>
