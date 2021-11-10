@@ -1,6 +1,6 @@
 import React, { useState, memo } from 'react';
 import { Form, Input, Modal } from '@arco-design/web-react';
-import { saveUser } from '../../services/users';
+import { mqttUserAdd, mqttUserUpdate } from '../../services/devices';
 
 const FormItem = Form.Item;
 
@@ -22,7 +22,8 @@ function ClientForm(props) {
   const _onOk = () => {
     form.validate().then(values => {
       setConfirmLoading(true);
-      saveUser(values).then(()=> {
+      const callApi = detail.id ? mqttUserUpdate : mqttUserAdd;
+      callApi(values).then(()=> {
         onOk();
       }).finally(()=> {
         setConfirmLoading(false);
@@ -47,13 +48,13 @@ function ClientForm(props) {
           labelCol={{ style: { flexBasis: 100 } }}
           wrapperCol={{ style: { flexBasis: 'calc(100% - 100px)' } }}
         >
-          <FormItem label='客户端ID' initialValue={detail.id} field='id'>
+          <FormItem disabled={detail.id !== undefined} label='客户端ID' initialValue={detail.clientId} field='clientId'>
             <Input />
           </FormItem>
           <FormItem initialValue={detail.username} label='用户名' field='username' rules={[{ required: true, message: '请输入用户名' }]}>
             <Input placeholder='请输入用户名' />
           </FormItem>
-          <FormItem initialValue={detail.password} label='密码' field='password' rules={[{ required: true, message: '请输入密码' }]}>
+          <FormItem label='密码' field='password' rules={[{ required: true, message: '请输入密码' }]}>
             <Input.Password placeholder='请输入密码' />
           </FormItem>
         </Form>

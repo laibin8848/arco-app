@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Table, Button, Input, Breadcrumb, Card, Message, Form, Space, Select } from '@arco-design/web-react';
+import { Table, Button, Input, Breadcrumb, Card, Message, Form, Space, Select, Modal } from '@arco-design/web-react';
 import { IconPlus } from '@arco-design/web-react/icon';
 import styles from './style/index.module.less';
 import ClientForm from './form';
 import ConnectLog from './connectLog';
 import useOpenModal from '../../hooks/useOpenModal';
 import { useTableQueryGet } from '../../hooks/useTableQuery';
-import { deleteUser, deleteUserBatch } from '../../services/users';
+import { mqttUserDelete, mqttUserOffline } from '../../services/devices';
 
 interface SysuserFilter {
   current: number;
@@ -30,6 +30,18 @@ function DevicesList() {
     setFilter({ ...filter, username });
   }
 
+  function onOperation(id, type = '') {
+    const callApi = type === 'offline' ? mqttUserOffline : mqttUserDelete;
+    Modal.confirm({
+      title: '确定继续操作？',
+      onOk: ()=> {
+        callApi({id}).then(()=> {
+          onSearch('');
+        })
+      }
+    });
+  }
+
   const columns = [
     { title: '客户端ID', dataIndex: 'clientId', width: 120, align: 'center', ellipsis: true },
     { title: '用户名', dataIndex: 'username', align: 'center' },
@@ -49,9 +61,11 @@ function DevicesList() {
           <Button className="operations-btn" type="text" size="mini" onClick={
             ()=> {useOpenModal(ConnectLog, { detail: item })}
           }>日志</Button>
-          <Button className="operations-btn" type="text" status="danger" size="mini">下线</Button>
-          <Button className="operations-btn" type="text" size="mini">修改</Button>
-          <Button className="operations-btn" type="text" status="danger" size="mini">删除</Button>
+          <Button className="operations-btn" type="text" status="danger" size="mini" onClick={()=> {onOperation(item.id, 'offline')}}>下线</Button>
+          <Button className="operations-btn" type="text" size="mini" onClick={
+            ()=> {useOpenModal(ClientForm, { detail: item, onOk: ()=> { onSearch('') } })}
+          }>修改</Button>
+          <Button className="operations-btn" type="text" status="danger" size="mini" onClick={()=> {onOperation(item.id)}}>删除</Button>
         </div>
       ),
     },
