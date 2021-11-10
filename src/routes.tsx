@@ -23,9 +23,9 @@ export const routes = [
         icon: <IconRobot />
       },
       {
-        name: '数据列表',
+        name: '发布消息列表',
         key: 'devices-setting/devices-datalist',
-        componentPath: 'search-table',
+        componentPath: 'publish-msg-list',
         icon: <IconStorage />
       },
     ],

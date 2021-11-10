@@ -25,18 +25,13 @@ function DevicesList() {
     setFilter({ current, pageSize });
   }
 
-  function onSearch(username) {
-    Message.success('数据刷新……');
-    setFilter({ ...filter, username });
-  }
-
   function onOperation(id, type = '') {
     const callApi = type === 'offline' ? mqttUserOffline : mqttUserDelete;
     Modal.confirm({
       title: '确定继续操作？',
       onOk: ()=> {
         callApi({id}).then(()=> {
-          onSearch('');
+          doSearchForm();
         })
       }
     });
@@ -63,7 +58,7 @@ function DevicesList() {
           }>日志</Button>
           <Button className="operations-btn" type="text" status="danger" size="mini" onClick={()=> {onOperation(item.id, 'offline')}}>下线</Button>
           <Button className="operations-btn" type="text" size="mini" onClick={
-            ()=> {useOpenModal(ClientForm, { detail: item, onOk: ()=> { onSearch('') } })}
+            ()=> {useOpenModal(ClientForm, { detail: item, onOk: ()=> { doSearchForm() } })}
           }>修改</Button>
           <Button className="operations-btn" type="text" status="danger" size="mini" onClick={()=> {onOperation(item.id)}}>删除</Button>
         </div>
@@ -107,7 +102,7 @@ function DevicesList() {
             </FormItem>
             <FormItem label='IP地址：' field='ip'><Input /></FormItem>
             <Space>
-              <Button size="small" type="primary" icon={<IconPlus />} onClick={()=> {useOpenModal(ClientForm, { onOk: ()=> { onSearch('') } })}}>
+              <Button size="small" type="primary" icon={<IconPlus />} onClick={()=> {useOpenModal(ClientForm, { onOk: ()=> { doSearchForm() } })}}>
                 新增客户端
               </Button>
               <Button size="small" type="primary" onClick={()=> {doSearchForm(true)}}>
