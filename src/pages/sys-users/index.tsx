@@ -24,7 +24,7 @@ function SysUsers() {
   }
 
   function onSearch(username) {
-    Message.success('数据刷新……');
+    Message.success('系统用户数据刷新……');
     setFilter({ ...filter, username });
   }
 

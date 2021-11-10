@@ -10,7 +10,7 @@ function MenuTree(props) {
 
   function fetchMenuList() {
     getMenuTree().then(res=> {
-      Message.success('数据已刷新~');
+      Message.success('菜单数据刷新……');
       setTreeList(res.data || []);
     });
   }

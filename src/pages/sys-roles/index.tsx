@@ -24,7 +24,7 @@ function SysRoles() {
   }
 
   function onSearch(roleName) {
-    Message.success('数据刷新……');
+    Message.success('角色数据刷新……');
     setFilter({ ...filter, roleName });
   }
 
