@@ -47,14 +47,12 @@ function SysRoles() {
     });
 
   }
-
+  
   const columns = [
-    { title: '用户ID', dataIndex: 'id', width: 190, align: 'center' },
-    { title: '用户名', dataIndex: 'username', align: 'center' },
-    { title: '真实姓名', dataIndex: 'realName', align: 'center' },
-    { title: '邮箱', dataIndex: 'email', align: 'center' },
-    { title: '电话号码', dataIndex: 'mobile', align: 'center' },
-    { title: '超级管理员', dataIndex: 'adminFlag', align: 'center' },
+    { title: '标识', dataIndex: 'roleCode', width: 190, align: 'center' },
+    { title: '角色名', dataIndex: 'roleName', align: 'center' },
+    { title: '描述', dataIndex: 'description', align: 'center' },
+    { title: '创建人', dataIndex: 'createBy', align: 'center' },
     { title: '创建时间', dataIndex: 'createTime', align: 'center' },
     {
       title: '操作',

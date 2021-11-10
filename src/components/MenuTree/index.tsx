@@ -55,6 +55,7 @@ function MenuTree(props) {
           <Tree
             {...props}
             renderExtra={(node) => {
+              if(!props.editable) return null;
               return (
                 <>
                   <IconEdit
