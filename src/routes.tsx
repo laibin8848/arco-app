@@ -28,12 +28,6 @@ export const routes = [
         componentPath: 'search-table',
         icon: <IconStorage />
       },
-      {
-        name: '客户端配置',
-        key: 'devices-setting/devices-config',
-        componentPath: 'search-table',
-        icon: <IconSettings />
-      },
     ],
   },
   {

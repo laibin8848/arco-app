@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Table, Button, Input, Breadcrumb, Card, Message, Modal } from '@arco-design/web-react';
-import { IconPlus, IconDelete } from '@arco-design/web-react/icon';
+import { Table, Button, Input, Breadcrumb, Card, Message, Form, Space, Select } from '@arco-design/web-react';
+import { IconPlus } from '@arco-design/web-react/icon';
 import styles from './style/index.module.less';
-import SysUserForm from './form';
+import ClientForm from './form';
 import useOpenModal from '../../hooks/useOpenModal';
 import { useTableQueryGet } from '../../hooks/useTableQuery';
 import { deleteUser, deleteUserBatch } from '../../services/users';
@@ -12,6 +12,8 @@ interface SysuserFilter {
   pageSize: number;
   username?: string;
 };
+const FormItem = Form.Item;
+const Option = Select.Option;
 
 function DevicesList() {
   const [filter, setFilter] = useState<SysuserFilter>({ current: 1, pageSize: 10 });
@@ -38,18 +40,23 @@ function DevicesList() {
     {
       title: '操作',
       dataIndex: 'operations',
-      width: 140,
+      width: 240,
       fixed: 'right',
       align: 'center',
       render: (col, item) => (
-        <div className={styles.operations}>
-          <Button type="text" size="mini" onClick={()=> {useOpenModal(SysUserForm, { detail: item, onOk: ()=> { onSearch('') } })}}>
-            详情
+        <div>
+          <Button type="text" size="mini" onClick={()=> {useOpenModal(ClientForm, { detail: item, onOk: ()=> { onSearch('') } })}}>
+            日志
           </Button>
           <Button type="text" status="danger" size="mini">
-            踢除
+            下线
           </Button>
-          {/* 下线，修改，删除 */}
+          <Button type="text" status="danger" size="mini">
+            修改
+          </Button>
+          <Button type="text" status="danger" size="mini">
+            删除
+          </Button>
         </div>
       ),
     },
@@ -62,6 +69,15 @@ function DevicesList() {
     showTotal: (total) => `共 ${total} 条`,
   };
 
+  const [searchForm] = Form.useForm();
+
+  function doSearchForm(reset = false) {
+    reset && searchForm.resetFields();
+    const { current, pageSize } = filter;
+    const parms = searchForm.getFieldsValue();
+    setFilter( {current, pageSize, ...parms} );
+  }
+
   return (
     <div className={styles.container}>
       <Breadcrumb style={{ marginBottom: 20 }}>
@@ -70,19 +86,28 @@ function DevicesList() {
       </Breadcrumb>
       <Card bordered={false}>
         <div className={styles.toolbar}>
-          <div>
-            <Button size="small" type="primary" icon={<IconPlus />} onClick={()=> {useOpenModal(SysUserForm, { onOk: ()=> { onSearch('') } })}}>
-              新增设备
-            </Button>
-          </div>
-          <div>
-            <Input.Search
-              style={{ width: 300 }}
-              searchButton
-              placeholder="请输入用户名"
-              onSearch={onSearch}
-            />
-          </div>
+          <Form style={{ width: '100%' }} layout="inline" form={searchForm}>
+            <FormItem label='客户端ID：' field='id'><Input /></FormItem>
+            <FormItem label='用户名：' field='username'><Input /></FormItem>
+            <FormItem label='连线状态：' field='connectStatus'>
+              <Select>
+                <Option value="connected">在线</Option>
+                <Option value="disconnected">离线</Option>
+              </Select>
+            </FormItem>
+            <FormItem label='IP地址：' field='ip'><Input /></FormItem>
+            <Space>
+              <Button size="small" type="primary" icon={<IconPlus />} onClick={()=> {useOpenModal(ClientForm, { onOk: ()=> { onSearch('') } })}}>
+                新增客户端
+              </Button>
+              <Button size="small" type="primary" onClick={()=> {doSearchForm(true)}}>
+                重置
+              </Button>
+              <Button size="small" type="primary" onClick={()=> {doSearchForm()}}>
+                查询
+              </Button>
+            </Space>
+          </Form>
         </div>
         <Table
           borderCell
