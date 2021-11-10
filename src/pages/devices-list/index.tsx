@@ -3,6 +3,7 @@ import { Table, Button, Input, Breadcrumb, Card, Message, Form, Space, Select } 
 import { IconPlus } from '@arco-design/web-react/icon';
 import styles from './style/index.module.less';
 import ClientForm from './form';
+import ConnectLog from './connectLog';
 import useOpenModal from '../../hooks/useOpenModal';
 import { useTableQueryGet } from '../../hooks/useTableQuery';
 import { deleteUser, deleteUserBatch } from '../../services/users';
@@ -45,7 +46,7 @@ function DevicesList() {
       align: 'center',
       render: (col, item) => (
         <div>
-          <Button type="text" size="mini" onClick={()=> {useOpenModal(ClientForm, { detail: item, onOk: ()=> { onSearch('') } })}}>
+          <Button type="text" size="mini" onClick={()=> {useOpenModal(ConnectLog, { detail: item })}}>
             日志
           </Button>
           <Button type="text" status="danger" size="mini">
