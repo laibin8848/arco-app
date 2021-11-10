@@ -31,7 +31,7 @@ function DevicesList() {
   }
 
   const columns = [
-    { title: '客户端ID', dataIndex: 'id', width: 190, align: 'center' },
+    { title: '客户端ID', dataIndex: 'clientId', width: 120, align: 'center', ellipsis: true },
     { title: '用户名', dataIndex: 'username', align: 'center' },
     { title: '连接状态', dataIndex: 'connectStatus', align: 'center' },
     { title: '连接时间', dataIndex: 'connectTime', align: 'center' },

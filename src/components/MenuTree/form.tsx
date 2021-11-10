@@ -1,6 +1,6 @@
 import React, { useState, memo } from 'react';
 import { Form, Input, Modal, Select } from '@arco-design/web-react';
-import { saveUser } from '../../services/users';
+import { saveMenu } from '../../services/menus';
 
 const FormItem = Form.Item;
 
@@ -21,8 +21,9 @@ function MenuForm(props) {
 
   const _onOk = () => {
     form.validate().then(values => {
+      const postData = { ...detail, ...values };
       setConfirmLoading(true);
-      saveUser(values).then(()=> {
+      saveMenu(postData).then(()=> {
         onOk();
       }).finally(()=> {
         setConfirmLoading(false);
@@ -56,11 +57,23 @@ function MenuForm(props) {
           <FormItem initialValue={detail.url} label='菜单URL' field='url' rules={[{ required: true, message: '请输入菜单URL' }]}>
             <Input placeholder='请输入菜单URL' />
           </FormItem>
-          <FormItem initialValue={detail.menuCode} label='菜单类型' field='type' rules={[{ required: true, message: '请选择菜单类型' }]}>
+          <FormItem disabled={detail.id !== undefined} initialValue={detail.menuCode} label='菜单类型' field='type' rules={[{ required: true, message: '请选择菜单类型' }]}>
             <Select>
-              <Select.Option value="0">目录</Select.Option>
-              <Select.Option value="1">菜单</Select.Option>
-              <Select.Option value="2">按钮</Select.Option>
+              {
+                !detail.parentId && (
+                  <Select.Option value="0">目录</Select.Option>
+                )
+              }
+              {
+                detail.parentId && (
+                  <Select.Option value="1">菜单</Select.Option>
+                )
+              }
+              {
+                detail.parentId && (
+                  <Select.Option value="2">按钮</Select.Option>
+                )
+              }
             </Select>
           </FormItem>
         </Form>

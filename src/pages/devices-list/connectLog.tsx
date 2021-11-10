@@ -13,13 +13,13 @@ function ConnectLog(props) {
   }
 
   const columns = [
-    { title: '客户端ID', dataIndex: 'id', width: 190, align: 'center' },
+    { title: '客户端ID', dataIndex: 'clientId', width: 90, align: 'center' },
     { title: '用户名', dataIndex: 'username', align: 'center' },
     { title: '下线原因', dataIndex: 'disconnectReason', align: 'center' },
     { title: 'IP', dataIndex: 'ip', align: 'center' },
     { title: '协议名称', dataIndex: 'protoName', align: 'center' },
     { title: '协议版本号', dataIndex: 'protoVer', align: 'center' },
-    { title: '完整内容', dataIndex: 'remark', align: 'center' },
+    { title: '完整内容', dataIndex: 'remark', align: 'center', width: 200, ellipsis: true },
     { title: '类型', dataIndex: 'type', align: 'center' },
   ];
 
@@ -48,6 +48,7 @@ function ConnectLog(props) {
           pagination={pagination}
           columns={columns}
           data={logListData?.records}
+          scroll={{y: 400}}
         />
       </Card>
     </Modal>
