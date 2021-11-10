@@ -1,5 +1,5 @@
 import React from 'react';
-import { IconList, IconDesktop, IconSettings, 
+import { IconList, IconDesktop, 
   IconRobot, IconStorage, IconUser, IconUserGroup  } from '@arco-design/web-react/icon';
 
 export const defaultRoute = 'dashboard';
@@ -44,13 +44,13 @@ export const routes = [
       {
         name: '菜单管理',
         key: 'system-users/menus',
-        componentPath: 'search-table',
+        componentPath: 'sys-menus',
         icon: <IconStorage />
       },
       {
         name: '角色管理',
         key: 'system-users/roles',
-        componentPath: 'search-table',
+        componentPath: 'sys-roles',
         icon: <IconUserGroup />
       },
     ],
