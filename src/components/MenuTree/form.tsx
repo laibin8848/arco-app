@@ -57,7 +57,7 @@ function MenuForm(props) {
           <FormItem initialValue={detail.url} label='菜单URL' field='url' rules={[{ required: true, message: '请输入菜单URL' }]}>
             <Input placeholder='请输入菜单URL' />
           </FormItem>
-          <FormItem disabled={detail.id !== undefined} initialValue={detail.menuCode} label='菜单类型' field='type' rules={[{ required: true, message: '请选择菜单类型' }]}>
+          <FormItem disabled={detail.id !== undefined} initialValue={detail.type} label='菜单类型' field='type' rules={[{ required: true, message: '请选择菜单类型' }]}>
             <Select>
               {
                 !detail.parentId && (

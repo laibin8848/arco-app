@@ -46,7 +46,7 @@ function MenuTree(props) {
       {
         props.editable && (
           <div style={{textAlign: 'right', marginBottom: '10px'}}>
-            <Button type="primary" onClick={()=> {useOpenModal(MenuForm, { detail: { parentId: 0 }, onOK: ()=> {fetchMenuList()} })}}>添加顶级菜单</Button>
+            <Button type="primary" onClick={()=> {useOpenModal(MenuForm, { detail: { parentId: 0 }, onOk: fetchMenuList })}}>添加顶级菜单</Button>
           </div>
         )
       }
@@ -60,13 +60,13 @@ function MenuTree(props) {
                   <IconEdit
                     style={{position: 'absolute', right: '52px', top: '10', color: '#3370ff'}}
                     onClick={() => {
-                      useOpenModal(MenuForm, { detail: node.dataRef, onOK: ()=> {fetchMenuList()} })
+                      useOpenModal(MenuForm, { detail: node.dataRef, onOk: fetchMenuList })
                     }}
                   />
                   <IconPlus
                     style={{position: 'absolute', right: '30px', top: '10', color: '#3370ff'}}
                     onClick={() => {
-                      useOpenModal(MenuForm, { detail: { parentId: node.dataRef.id }, onOK: ()=> {fetchMenuList()} })
+                      useOpenModal(MenuForm, { detail: { parentId: node.dataRef.id, onOk: fetchMenuList } })
                     }}
                   />
                   <IconDelete
