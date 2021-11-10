@@ -41,23 +41,17 @@ function DevicesList() {
     {
       title: '操作',
       dataIndex: 'operations',
-      width: 240,
+      width: 180,
       fixed: 'right',
       align: 'center',
       render: (col, item) => (
         <div>
-          <Button type="text" size="mini" onClick={()=> {useOpenModal(ConnectLog, { detail: item })}}>
-            日志
-          </Button>
-          <Button type="text" status="danger" size="mini">
-            下线
-          </Button>
-          <Button type="text" status="danger" size="mini">
-            修改
-          </Button>
-          <Button type="text" status="danger" size="mini">
-            删除
-          </Button>
+          <Button className="operations-btn" type="text" size="mini" onClick={
+            ()=> {useOpenModal(ConnectLog, { detail: item })}
+          }>日志</Button>
+          <Button className="operations-btn" type="text" status="danger" size="mini">下线</Button>
+          <Button className="operations-btn" type="text" size="mini">修改</Button>
+          <Button className="operations-btn" type="text" status="danger" size="mini">删除</Button>
         </div>
       ),
     },
@@ -92,6 +86,7 @@ function DevicesList() {
             <FormItem label='用户名：' field='username'><Input /></FormItem>
             <FormItem label='连线状态：' field='connectStatus'>
               <Select>
+                <Option value="">所有</Option>
                 <Option value="connected">在线</Option>
                 <Option value="disconnected">离线</Option>
               </Select>

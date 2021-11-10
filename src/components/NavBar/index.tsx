@@ -9,7 +9,6 @@ import {
   Menu,
   Space,
 } from '@arco-design/web-react';
-import { IconIdcard } from '@arco-design/web-react/icon';
 import { useSelector } from 'react-redux';
 import { ReducerState } from '../../redux';
 // import useLocale from '../../utils/useLocale';
@@ -98,7 +97,7 @@ function Navbar() {
         {userInfo && (
           <>
             <li style={{cursor: 'pointer'}} onClick={()=> {useOpenModal(ChangePassword, { detail: userInfo })}}>
-              修改密码<IconIdcard style={{marginLeft: '2px'}} />
+              修改密码
             </li>
             <li>
               <Avatar size={24} style={{ marginRight: 8 }}>

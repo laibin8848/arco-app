@@ -63,13 +63,13 @@ function SysUsers() {
       fixed: 'right',
       align: 'center',
       render: (col, item) => (
-        <div className={styles.operations}>
-          <Button type="text" size="mini" onClick={()=> {useOpenModal(SysUserForm, { detail: item, onOk: ()=> { onSearch('') } })}}>
+        <div>
+          <Button className="operations-btn" type="text" size="mini" onClick={()=> {useOpenModal(SysUserForm, { detail: item, onOk: ()=> { onSearch('') } })}}>
             编辑
           </Button>
           {
             !item.adminFlag && (
-              <Button type="text" status="danger" size="mini" onClick={()=> { onDelete(item.id) }}>
+              <Button className="operations-btn" type="text" status="danger" size="mini" onClick={()=> { onDelete(item.id) }}>
                 删除
               </Button>
             )
