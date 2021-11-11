@@ -22,8 +22,9 @@ function MenuTree(props) {
   const generatorTreeNodes = (treeData) => {
     return treeData.map((item) => {
       const { children, id, menuName } = item;
+      const restProps = { dataRef: item };
       return (
-        <Tree.Node key={id} title={menuName} dataRef={item}>
+        <Tree.Node key={id} title={menuName} {...restProps}>
           {children ? generatorTreeNodes(item.children) : null}
         </Tree.Node>
       );
@@ -54,7 +55,7 @@ function MenuTree(props) {
         treeList.length ?
           <Tree
             {...props}
-            renderExtra={(node) => {
+            renderExtra={(node: any) => {
               if(!props.editable) return null;
               return (
                 <>
@@ -67,7 +68,7 @@ function MenuTree(props) {
                   <IconPlus
                     style={{position: 'absolute', right: '30px', top: '10', color: '#3370ff'}}
                     onClick={() => {
-                      useOpenModal(MenuForm, { detail: { parentId: node.dataRef.id, onOk: fetchMenuList } })
+                      useOpenModal(MenuForm, { detail: { parentId: node.dataRef.id }, onOk: fetchMenuList })
                     }}
                   />
                   <IconDelete
