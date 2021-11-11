@@ -4,12 +4,12 @@ export const mqttUserAdd = (data) => {
     return request.post('/admin-backend/mqttUser/add', data)
 }
 
-export const mqttUserDelete = (data) => {
-    return request.post('/admin-backend/mqttUser/delete', data)
+export const mqttUserDelete = (id) => {
+    return request.post(`/admin-backend/mqttUser/delete?id=${id}`)
 }
 
-export const mqttUserOffline = (data) => {
-    return request.post('/admin-backend/mqttUser/offline', data)
+export const mqttUserOffline = (id) => {
+    return request.post(`/admin-backend/mqttUser/offline?id=${id}`)
 }
 
 export const mqttUserUpdate = (data) => {

@@ -30,7 +30,7 @@ function DevicesList() {
     Modal.confirm({
       title: '确定继续操作？',
       onOk: ()=> {
-        callApi({id}).then(()=> {
+        callApi(id).then(()=> {
           doSearchForm();
         })
       }
