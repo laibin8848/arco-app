@@ -102,7 +102,7 @@ function Navbar() {
             <li>
               <Avatar size={24} style={{ marginRight: 8 }}>
                 {
-                  userInfo.avatar ? <img alt="avatar" src={userInfo.avatar} /> : '0'
+                  userInfo.avatar ? <img alt="avatar" src={userInfo.avatar} /> : ''
                 }
               </Avatar>
               <Dropdown

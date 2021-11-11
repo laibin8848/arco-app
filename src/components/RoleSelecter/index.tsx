@@ -4,7 +4,7 @@ import { allRoleList } from '../../services/roles';
 
 export default function RoleSelecter(props) {
   const [roles, setRoles] = useState([])
-  const { defaultValue, onChange } = props;
+  const { defaultValue, onChange, mode } = props;
 
   useEffect(()=> {
     allRoleList().then(res=> {
@@ -13,7 +13,7 @@ export default function RoleSelecter(props) {
   }, [])
 
   return (
-    <Select defaultValue={defaultValue} onChange={onChange}>
+    <Select mode={mode} defaultValue={defaultValue} onChange={onChange}>
       {
         roles.map(item=> {
           return (<Select.Option key={item.id} value={item.id}>{item.roleName}</Select.Option>)
