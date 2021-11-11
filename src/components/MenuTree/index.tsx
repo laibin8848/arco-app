@@ -1,5 +1,5 @@
 import React, { memo, useState, useEffect } from 'react';
-import { Button, Tree, Message, Modal } from '@arco-design/web-react';
+import { Button, Tree, Message, Modal, Spin } from '@arco-design/web-react';
 import { IconPlus, IconDelete, IconEmpty, IconEdit } from '@arco-design/web-react/icon';
 import MenuForm from './form';
 import useOpenModal from '../../hooks/useOpenModal';
@@ -7,10 +7,12 @@ import { getMenuTree, deleteMenu } from '../../services/menus';
 
 function MenuTree(props) {
   const [treeList, setTreeList] = useState([]);
+  const [treeLoading, setTreeLoading] = useState(true);
 
   function fetchMenuList() {
     getMenuTree().then(res=> {
       Message.success('菜单数据刷新……');
+      setTreeLoading(false);
       setTreeList(res.data || []);
     });
   }
@@ -40,6 +42,13 @@ function MenuTree(props) {
         });
       }
     });
+  }
+  if(treeLoading) {
+    return (
+      <div style={{textAlign: 'center',padding: '10px'}}>
+        <Spin dot size={24} />
+      </div>
+    )
   }
 
   return(

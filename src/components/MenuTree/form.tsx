@@ -57,23 +57,11 @@ function MenuForm(props) {
           <FormItem initialValue={detail.url} label='菜单URL' field='url' rules={[{ required: true, message: '请输入菜单URL' }]}>
             <Input placeholder='请输入菜单URL' />
           </FormItem>
-          <FormItem disabled={detail.id !== undefined} initialValue={detail.type} label='菜单类型' field='type' rules={[{ required: true, message: '请选择菜单类型' }]}>
+          <FormItem initialValue={detail.type || 0} disabled={detail.id !== undefined} label='菜单类型' field='type' rules={[{ required: true, message: '请选择菜单类型' }]}>
             <Select>
-              {
-                !detail.parentId && (
-                  <Select.Option value="0">目录</Select.Option>
-                )
-              }
-              {
-                detail.parentId && (
-                  <Select.Option value="1">菜单</Select.Option>
-                )
-              }
-              {
-                detail.parentId && (
-                  <Select.Option value="2">按钮</Select.Option>
-                )
-              }
+              <Select.Option disabled={detail.parentId} value={0}>目录</Select.Option>
+              <Select.Option value={1}>菜单</Select.Option>
+              <Select.Option value={2}>按钮</Select.Option>
             </Select>
           </FormItem>
         </Form>

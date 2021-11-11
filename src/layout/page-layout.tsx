@@ -40,14 +40,13 @@ function getFlattenRoutes() {
 
 function renderRoutes(locale, userInfo) {
   const adminFlag = userInfo.adminFlag;
-  const permissions = userInfo.userMenus || [];
+  const userMenus = [];
+  userInfo.userMenus && userInfo.userMenus.map(item => { userMenus.push(item.menuCode) });
+  const permissions = userMenus;
   const nodes = [];
-  if (permissions === []) {
-    return nodes;
-  }
+  if (permissions.length === 0 && !adminFlag) return null;
   function travel(_routes, level) {
     return _routes.map((route) => {
-      if (permissions.length === 0 && !adminFlag && route.key !== 'dashboard') return;
       if (!permissions.includes(route.key) && !adminFlag && route.key !== 'dashboard') return;
       const titleDom = (
         <>
