@@ -10,7 +10,7 @@ function SysMenus() {
         <Breadcrumb.Item>用户权限管理</Breadcrumb.Item>
         <Breadcrumb.Item>菜单管理</Breadcrumb.Item>
       </Breadcrumb>
-      <Card bordered={false}>
+      <Card bordered={false} style={{width: 700}}>
         <MenuTree showLine checkable editable />
       </Card>
     </div>

@@ -53,14 +53,12 @@ function SysUsers() {
     { title: '真实姓名', dataIndex: 'realName', align: 'center' },
     { title: '邮箱', dataIndex: 'email', align: 'center' },
     { title: '电话号码', dataIndex: 'mobile', align: 'center' },
-    { title: '超级管理员', dataIndex: 'adminFlag', align: 'center' },
+    { title: '超级管理员', dataIndex: 'adminFlag', align: 'center',
+      render: (col, item) => (item.adminFlag ? '是' : '否')
+    },
     { title: '创建时间', dataIndex: 'createTime', align: 'center' },
     {
-      title: '操作',
-      dataIndex: 'operations',
-      width: 140,
-      fixed: 'right',
-      align: 'center',
+      title: '操作',dataIndex: 'operations',width: 140,fixed: 'right',align: 'center',
       render: (col, item) => (
         <div>
           <Button className="operations-btn" type="text" size="mini" onClick={()=> {useOpenModal(SysUserForm, { detail: item, onOk: ()=> { onSearch('') } })}}>
