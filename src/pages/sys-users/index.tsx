@@ -60,18 +60,16 @@ function SysUsers() {
     {
       title: '操作',dataIndex: 'operations',width: 140,fixed: 'right',align: 'center',
       render: (col, item) => (
-        <div>
-          <Button className="operations-btn" type="text" size="mini" onClick={()=> {useOpenModal(SysUserForm, { detail: item, onOk: ()=> { onSearch('') } })}}>
-            编辑
-          </Button>
-          {
-            !item.adminFlag && (
-              <Button className="operations-btn" type="text" status="danger" size="mini" onClick={()=> { onDelete(item.id) }}>
-                删除
-              </Button>
-            )
-          }
-        </div>
+        !item.adminFlag && (
+          <div>
+            <Button className="operations-btn" type="text" size="mini" onClick={()=> {useOpenModal(SysUserForm, { detail: item, onOk: ()=> { onSearch('') } })}}>
+              编辑
+            </Button>
+            <Button className="operations-btn" type="text" status="danger" size="mini" onClick={()=> { onDelete(item.id) }}>
+              删除
+            </Button>
+          </div>
+        )
       ),
     },
   ];

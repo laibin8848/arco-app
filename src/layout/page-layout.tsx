@@ -42,12 +42,13 @@ function renderRoutes(locale, userInfo) {
   const adminFlag = userInfo.adminFlag;
   const permissions = userInfo.userMenus || [];
   const nodes = [];
-  if (permissions === [] && !adminFlag) {
+  if (permissions === []) {
     return nodes;
   }
   function travel(_routes, level) {
     return _routes.map((route) => {
-      if (!permissions && !adminFlag) return;
+      if (permissions.length === 0 && !adminFlag && route.key !== 'dashboard') return;
+      if (!permissions.includes(route.key) && !adminFlag && route.key !== 'dashboard') return;
       const titleDom = (
         <>
           {route.icon} {locale[route.name] || route.name}
