@@ -57,6 +57,9 @@ function ClientForm(props) {
           <FormItem label='密码' field='password' rules={[{ required: true, message: '请输入密码' }]}>
             <Input.Password placeholder='请输入密码' />
           </FormItem>
+          <FormItem initialValue={detail.remark} label='设备信息' field='remark'>
+            <Input.TextArea rows={4} placeholder='请输入设备信息' />
+          </FormItem>
         </Form>
       </Modal>
     </div>

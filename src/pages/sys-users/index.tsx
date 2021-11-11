@@ -125,6 +125,7 @@ function SysUsers() {
           onChange={onChangeTable}
           pagination={pagination}
           scroll={{ x: 1400 }}
+          // @ts-ignore
           columns={columns}
           rowSelection={{
             type: 'checkbox',

@@ -4,7 +4,7 @@ import { useTableQueryGet } from '../../hooks/useTableQuery';
 
 function ConnectLog(props) {
   const { visible, detail = {}, onCancel } = props;
-  const [filter, setFilter] = useState({ current: 1, pageSize: 10, clientId: detail?.id });
+  const [filter, setFilter] = useState({ current: 1, pageSize: 10, clientId: detail?.clientId });
   const { loading: logLoading, data: logListData } = useTableQueryGet('/admin-backend/connectInfo/listPage', filter);
 
   function onChangeTable(pagination) {
@@ -48,6 +48,7 @@ function ConnectLog(props) {
           loading={{ loading: logLoading, size: 18, dot: true, element: null }}
           onChange={onChangeTable}
           pagination={pagination}
+          // @ts-ignore
           columns={columns}
           data={logListData?.records}
           scroll={{y: 400}}

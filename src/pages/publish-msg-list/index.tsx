@@ -7,11 +7,13 @@ interface SysuserFilter {
   current: number;
   pageSize: number;
   topic?: string;
+  clientId?: string;
 };
 const FormItem = Form.Item;
 
-function PbulistMsgList() {
-  const [filter, setFilter] = useState<SysuserFilter>({ current: 1, pageSize: 10 });
+function PbulistMsgList(props) {
+  const { byClientId } = props;
+  const [filter, setFilter] = useState<SysuserFilter>({ current: 1, pageSize: 10, clientId: byClientId || '' });
   const { loading: msgLoading, data: msgListData } = useTableQueryGet('/admin-backend/messagePublish/listPage', filter);
 
   function onChangeTable(pagination) {
@@ -21,10 +23,10 @@ function PbulistMsgList() {
   
   const columns = [
     { title: '主题', dataIndex: 'topic', width: 120, align: 'center', ellipsis: true },
+    { title: '客户端ID', dataIndex: 'from_client_id', align: 'center' },
+    { title: '用户名', dataIndex: 'from_username', align: 'center' },
     { title: 'Qos', dataIndex: 'qos', align: 'center' },
     { title: '内容', dataIndex: 'payload', align: 'center' },
-    { title: '用户名', dataIndex: 'from_username', align: 'center' },
-    { title: '客户端ID', dataIndex: 'from_client_id', align: 'center' },
     { title: '行为', dataIndex: 'action', align: 'center' },
   ];
 
@@ -45,27 +47,36 @@ function PbulistMsgList() {
   }
 
   return (
-    <div className={styles.container}>
-      <Breadcrumb style={{ marginBottom: 20 }}>
-        <Breadcrumb.Item>设备管理</Breadcrumb.Item>
-        <Breadcrumb.Item>发布消息列表</Breadcrumb.Item>
-      </Breadcrumb>
+    <div className={!byClientId ? styles.container : ''}>
+      {
+        !byClientId && (
+          <Breadcrumb style={{ marginBottom: 20 }}>
+            <Breadcrumb.Item>设备管理</Breadcrumb.Item>
+            <Breadcrumb.Item>发布消息列表</Breadcrumb.Item>
+          </Breadcrumb>
+        )
+      }
       <Card bordered={false}>
-        <div className={styles.toolbar}>
-          <Form style={{ width: '100%' }} layout="inline" form={searchForm}>
-            <FormItem label='主题' field='topic'><Input /></FormItem>
-            <FormItem>
-              <Space>
-                <Button size="small" type="primary" onClick={()=> {doSearchForm(true)}}>
-                  重置
-                </Button>
-                <Button size="small" type="primary" onClick={()=> {doSearchForm()}}>
-                  查询
-                </Button>
-              </Space>
-            </FormItem>
-          </Form>
-        </div>
+        {
+          !byClientId && (
+            <div className={styles.toolbar}>
+              <Form style={{ width: '100%' }} layout="inline" form={searchForm}>
+                <FormItem label='主题' field='topic'><Input /></FormItem>
+                <FormItem label='客户端ID' field='clientId'><Input /></FormItem>
+                <FormItem>
+                  <Space>
+                    <Button size="small" type="primary" onClick={()=> {doSearchForm(true)}}>
+                      重置
+                    </Button>
+                    <Button size="small" type="primary" onClick={()=> {doSearchForm()}}>
+                      查询
+                    </Button>
+                  </Space>
+                </FormItem>
+              </Form>
+            </div>
+          )
+        }
         <Table
           borderCell
           rowKey="id"
@@ -73,6 +84,7 @@ function PbulistMsgList() {
           onChange={onChangeTable}
           pagination={pagination}
           scroll={{ x: 1400 }}
+          // @ts-ignore
           columns={columns}
           data={msgListData?.list}
         />

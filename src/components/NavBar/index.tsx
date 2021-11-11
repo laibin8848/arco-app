@@ -10,6 +10,7 @@ import {
   Space,
 } from '@arco-design/web-react';
 import { useSelector } from 'react-redux';
+import { IconUser } from '@arco-design/web-react/icon';
 import { ReducerState } from '../../redux';
 // import useLocale from '../../utils/useLocale';
 import Logo from '../../assets/logo.svg';
@@ -100,9 +101,9 @@ function Navbar() {
               修改密码
             </li>
             <li>
-              <Avatar size={24} style={{ marginRight: 8 }}>
+              <Avatar size={24} style={{ marginRight: 8, backgroundColor: '#14a9f8' }}>
                 {
-                  userInfo.avatar ? <img alt="avatar" src={userInfo.avatar} /> : ''
+                  userInfo.avatar ? <img alt="avatar" src={userInfo.avatar} /> : <IconUser />
                 }
               </Avatar>
               <Dropdown

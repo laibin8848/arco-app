@@ -7,6 +7,7 @@ import ConnectLog from './connectLog';
 import useOpenModal from '../../hooks/useOpenModal';
 import { useTableQueryGet } from '../../hooks/useTableQuery';
 import { mqttUserDelete, mqttUserOffline } from '../../services/devices';
+import PbulistMsgList from '../publish-msg-list';
 
 interface SysuserFilter {
   current: number;
@@ -37,8 +38,21 @@ function DevicesList() {
     });
   }
 
+  function showMsgList(props) {
+    const { visible, clientId, onCancel } = props;
+    return (
+      <Modal title="发布信息列表" visible={visible} style={{width: '80%'}} onCancel={onCancel} footer={null}>
+        <PbulistMsgList byClientId={clientId} />
+      </Modal>
+    )
+  }
+
   const columns = [
-    { title: '客户端ID', dataIndex: 'clientId', width: 120, align: 'center', ellipsis: true },
+    { title: '客户端ID', dataIndex: 'clientId', width: 160, align: 'center',
+      render: (col, item) => (
+        <Button type="text" size="mini" onClick={()=> {useOpenModal(showMsgList, { clientId: item.clientId })}}>{item.clientId}</Button>
+      )
+    },
     { title: '用户名', dataIndex: 'username', align: 'center' },
     { title: '连接状态', dataIndex: 'connectStatus', align: 'center',
       render: (col, item) => (item.connectStatus === 'connected' ? '在线' : '离线')
@@ -131,6 +145,7 @@ function DevicesList() {
           onChange={onChangeTable}
           pagination={pagination}
           scroll={{ x: 1400 }}
+          // @ts-ignore
           columns={columns}
           data={userListData?.records}
         />
