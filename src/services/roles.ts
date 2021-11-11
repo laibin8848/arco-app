@@ -5,7 +5,7 @@ export const getRoleList = (data) => {
   }
   
   export const delRole = (row) => {
-    return request.get(`/admin-backend/sys/role/delete/${row.id}`)
+    return request.delete(`/admin-backend/sys/role/delete/${row.id}`)
   }
   
   export const getRole = (id) => {

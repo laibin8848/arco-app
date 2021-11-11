@@ -20,12 +20,12 @@ function PbulistMsgList() {
   }
   
   const columns = [
-    { title: 'topic', dataIndex: 'topic', width: 120, align: 'center', ellipsis: true },
-    { title: 'qos', dataIndex: 'qos', align: 'center' },
-    { title: 'payload', dataIndex: 'payload', align: 'center' },
-    { title: 'from_username', dataIndex: 'from_username', align: 'center' },
-    { title: 'from_client_id', dataIndex: 'from_client_id', align: 'center' },
-    { title: 'action', dataIndex: 'action', align: 'center' },
+    { title: '主题', dataIndex: 'topic', width: 120, align: 'center', ellipsis: true },
+    { title: 'QOS', dataIndex: 'qos', align: 'center' },
+    { title: '内容', dataIndex: 'payload', align: 'center' },
+    { title: '用户名', dataIndex: 'from_username', align: 'center' },
+    { title: '客户端ID', dataIndex: 'from_client_id', align: 'center' },
+    { title: '行为', dataIndex: 'action', align: 'center' },
   ];
 
   const pagination = {
@@ -53,7 +53,7 @@ function PbulistMsgList() {
       <Card bordered={false}>
         <div className={styles.toolbar}>
           <Form style={{ width: '100%' }} layout="inline" form={searchForm}>
-            <FormItem label='topic' field='topic'><Input /></FormItem>
+            <FormItem label='主题' field='topic'><Input /></FormItem>
             <Space>
               <Button size="small" type="primary" onClick={()=> {doSearchForm(true)}}>
                 重置

@@ -62,10 +62,16 @@ function SysRoleForm(props) {
             <Input placeholder='请输入角色名' />
           </FormItem>
           <FormItem initialValue={detail.description} label='描述' field='description' rules={[{ required: true, message: '请输入描述' }]}>
-            <Input.TextArea rows={4} placeholder='请输入描述' />
+            <Input.TextArea rows={3} placeholder='请输入描述' />
           </FormItem>
           <FormItem initialValue={detail.menuIds} label='菜单权限' field='menuIds' rules={[{ required: true, message: '请选择菜单权限' }]}>
-            <MenuTree showLine checkable onCheck={setMenuIds} />
+            <MenuTree 
+              height="500px"
+              showLine 
+              checkable 
+              onCheck={setMenuIds} 
+              defaultCheckedKeys={detail.menuIds || []} 
+            />
           </FormItem>
         </Form>
       </Modal>

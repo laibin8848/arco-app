@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Table, Button, Input, Breadcrumb, Card, Message, Modal } from '@arco-design/web-react';
-import { IconPlus, IconDelete } from '@arco-design/web-react/icon';
+import { IconPlus } from '@arco-design/web-react/icon';
 import styles from './style/index.module.less';
 import SysRoleForm from './form';
 import useOpenModal from '../../hooks/useOpenModal';
 import useTableQuery from '../../hooks/useTableQuery';
-import { deleteUser, deleteUserBatch } from '../../services/users';
+import { delRole, getRole } from '../../services/roles';
 
 interface SysuserFilter {
   current: number;
@@ -23,29 +23,29 @@ function SysRoles() {
     setFilter({ current, pageSize });
   }
 
-  function onSearch(roleName) {
+  function onSearch(roleName = '') {
     Message.success('角色数据刷新……');
     setFilter({ ...filter, roleName });
   }
 
-  function onDelete(id = '') {
-    const empty = id === '' && selectedRowKeys.length === 0;
-    if(empty) {
-      Message.error('请选择需要删除的数据！');
-      return;
-    }
-    const batch = id === '';
-    const callApi = batch ? deleteUserBatch : deleteUser;
-    const ids = batch ? selectedRowKeys.join(',') : id;
+  function onDelete(item) {
     Modal.confirm({
       title: '确定继续操作？',
       onOk: ()=> {
-        callApi(ids).then(()=> {
+        delRole(item).then(()=> {
           onSearch('');
         })
       }
     });
+  }
 
+  function onEdit(item) {
+    getRole(item.id).then(res=> {
+      useOpenModal(SysRoleForm, {
+        detail: res.data,
+        onOk: onSearch
+      })
+    })
   }
   
   const columns = [
@@ -61,13 +61,13 @@ function SysRoles() {
       fixed: 'right',
       align: 'center',
       render: (col, item) => (
-        <div className={styles.operations}>
-          <Button type="text" size="mini" onClick={()=> {useOpenModal(SysRoleForm, { detail: item, onOk: ()=> { onSearch('') } })}}>
+        <div>
+          <Button className="operations-btn" type="text" size="mini" onClick={()=> {onEdit(item)}}>
             编辑
           </Button>
           {
             !item.adminFlag && (
-              <Button type="text" status="danger" size="mini" onClick={()=> { onDelete(item.id) }}>
+              <Button className="operations-btn" type="text" status="danger" size="mini" onClick={()=> { onDelete(item) }}>
                 删除
               </Button>
             )
@@ -93,11 +93,8 @@ function SysRoles() {
       <Card bordered={false}>
         <div className={styles.toolbar}>
           <div>
-            <Button size="small" type="primary" icon={<IconPlus />} onClick={()=> {useOpenModal(SysRoleForm, { onOk: ()=> { onSearch('') } })}}>
+            <Button size="small" type="primary" icon={<IconPlus />} onClick={()=> {useOpenModal(SysRoleForm, { onOk: onSearch })}}>
               新增角色
-            </Button>
-            <Button onClick={()=> { onDelete('') }} style={{marginLeft: '10px'}} size="small" type="default" icon={<IconDelete />}>
-              批量删除
             </Button>
           </div>
           <div>
