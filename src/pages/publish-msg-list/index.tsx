@@ -21,7 +21,7 @@ function PbulistMsgList() {
   
   const columns = [
     { title: '主题', dataIndex: 'topic', width: 120, align: 'center', ellipsis: true },
-    { title: 'QOS', dataIndex: 'qos', align: 'center' },
+    { title: 'Qos', dataIndex: 'qos', align: 'center' },
     { title: '内容', dataIndex: 'payload', align: 'center' },
     { title: '用户名', dataIndex: 'from_username', align: 'center' },
     { title: '客户端ID', dataIndex: 'from_client_id', align: 'center' },
@@ -54,14 +54,16 @@ function PbulistMsgList() {
         <div className={styles.toolbar}>
           <Form style={{ width: '100%' }} layout="inline" form={searchForm}>
             <FormItem label='主题' field='topic'><Input /></FormItem>
-            <Space>
-              <Button size="small" type="primary" onClick={()=> {doSearchForm(true)}}>
-                重置
-              </Button>
-              <Button size="small" type="primary" onClick={()=> {doSearchForm()}}>
-                查询
-              </Button>
-            </Space>
+            <FormItem>
+              <Space>
+                <Button size="small" type="primary" onClick={()=> {doSearchForm(true)}}>
+                  重置
+                </Button>
+                <Button size="small" type="primary" onClick={()=> {doSearchForm()}}>
+                  查询
+                </Button>
+              </Space>
+            </FormItem>
           </Form>
         </div>
         <Table

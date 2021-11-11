@@ -105,7 +105,7 @@ function SysUsers() {
             <Button size="small" type="primary" icon={<IconPlus />} onClick={()=> {useOpenModal(SysUserForm, { onOk: ()=> { onSearch('') } })}}>
               新增用户
             </Button>
-            <Button onClick={()=> { onDelete('') }} style={{marginLeft: '10px'}} size="small" type="default" icon={<IconDelete />}>
+            <Button onClick={()=> { onDelete('') }} style={{marginLeft: '10px'}} size="small" type="default" status="danger" icon={<IconDelete />}>
               批量删除
             </Button>
           </div>

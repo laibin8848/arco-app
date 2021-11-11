@@ -58,11 +58,17 @@ function DevicesList() {
           <Button className="operations-btn" type="text" size="mini" onClick={
             ()=> {useOpenModal(ConnectLog, { detail: item })}
           }>日志</Button>
-          <Button className="operations-btn" type="text" status="danger" size="mini" onClick={()=> {onOperation(item.id, 'offline')}}>下线</Button>
-          <Button className="operations-btn" type="text" size="mini" onClick={
-            ()=> {useOpenModal(ClientForm, { detail: item, onOk: ()=> { doSearchForm() } })}
-          }>修改</Button>
-          <Button className="operations-btn" type="text" status="danger" size="mini" onClick={()=> {onOperation(item.id)}}>删除</Button>
+          {
+            !item.is_superuser && (
+              <>
+                <Button className="operations-btn" type="text" status="danger" size="mini" onClick={()=> {onOperation(item.clientId, 'offline')}}>下线</Button>
+                <Button className="operations-btn" type="text" size="mini" onClick={
+                  ()=> {useOpenModal(ClientForm, { detail: item, onOk: ()=> { doSearchForm() } })}
+                }>修改</Button>
+                <Button className="operations-btn" type="text" status="danger" size="mini" onClick={()=> {onOperation(item.id)}}>删除</Button>
+              </>
+            )
+          }
         </div>
       ),
     },
@@ -103,17 +109,19 @@ function DevicesList() {
               </Select>
             </FormItem>
             <FormItem label='IP地址：' field='ip'><Input /></FormItem>
-            <Space>
-              <Button size="small" type="primary" icon={<IconPlus />} onClick={()=> {useOpenModal(ClientForm, { onOk: ()=> { doSearchForm() } })}}>
-                新增客户端
-              </Button>
-              <Button size="small" type="primary" onClick={()=> {doSearchForm(true)}}>
-                重置
-              </Button>
-              <Button size="small" type="primary" onClick={()=> {doSearchForm()}}>
-                查询
-              </Button>
-            </Space>
+            <FormItem>
+              <Space>
+                <Button size="small" type="primary" icon={<IconPlus />} onClick={()=> {useOpenModal(ClientForm, { onOk: ()=> { doSearchForm() } })}}>
+                  新增客户端
+                </Button>
+                <Button size="small" type="primary" onClick={()=> {doSearchForm(true)}}>
+                  重置
+                </Button>
+                <Button size="small" type="primary" onClick={()=> {doSearchForm()}}>
+                  查询
+                </Button>
+              </Space>
+            </FormItem>
           </Form>
         </div>
         <Table
