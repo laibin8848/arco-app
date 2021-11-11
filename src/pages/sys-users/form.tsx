@@ -1,6 +1,7 @@
 import React, { useState, memo } from 'react';
 import { Form, Input, Modal } from '@arco-design/web-react';
 import { saveUser } from '../../services/users';
+import RoleSelecter from '../../components/RoleSelecter';
 
 const FormItem = Form.Item;
 
@@ -30,6 +31,10 @@ function SysUserForm(props) {
     })
   }
 
+  function onRoleSlect(values) {
+    form.setFieldValue('roleIds', values);
+  }
+
   return (
     <div>
       <Modal 
@@ -53,9 +58,13 @@ function SysUserForm(props) {
           <FormItem initialValue={detail.username} label='用户名' field='username' rules={[{ required: true, message: '请输入用户名' }]}>
             <Input placeholder='请输入用户名' />
           </FormItem>
-          <FormItem initialValue={detail.password} label='密码' field='password' rules={[{ required: true, message: '请输入密码' }]}>
-            <Input.Password placeholder='请输入密码' />
-          </FormItem>
+          {
+            !detail.id && (
+              <FormItem initialValue={detail.password} label='密码' field='password' rules={[{ required: true, message: '请输入密码' }]}>
+                <Input.Password placeholder='请输入密码' />
+              </FormItem>
+            )
+          }
           <FormItem initialValue={detail.email} label='邮箱' field='email' rules={[{ required: true, message: '请输入邮箱' }]}>
             <Input placeholder='请输入邮箱' />
           </FormItem>
@@ -65,8 +74,8 @@ function SysUserForm(props) {
           <FormItem initialValue={detail.realName} label='真实姓名' field='realName' rules={[{ required: true, message: '请输入真实姓名' }]}>
             <Input placeholder='请输入真实姓名' />
           </FormItem>
-          <FormItem initialValue={detail.roleIds} label='角色' field='roleIds' rules={[{ required: true, message: '请选择角色' }]}>
-            <Input placeholder='请输入真实姓名' />
+          <FormItem label='角色' field='roleIds' rules={[{ required: true, message: '请选择角色' }]}>
+            <RoleSelecter mode="multiple" defaultValue={detail.roleIds || []} onChange={onRoleSlect} />
           </FormItem>
         </Form>
       </Modal>

@@ -5,7 +5,7 @@ import styles from './style/index.module.less';
 import SysUserForm from './form';
 import useOpenModal from '../../hooks/useOpenModal';
 import useTableQuery from '../../hooks/useTableQuery';
-import { deleteUser, deleteUserBatch } from '../../services/users';
+import { deleteUser, deleteUserBatch, getUser } from '../../services/users';
 
 interface SysuserFilter {
   current: number;
@@ -23,7 +23,7 @@ function SysUsers() {
     setFilter({ current, pageSize });
   }
 
-  function onSearch(username) {
+  function onSearch(username = '') {
     Message.success('系统用户数据刷新……');
     setFilter({ ...filter, username });
   }
@@ -47,6 +47,18 @@ function SysUsers() {
     });
   }
 
+  function onEdit(item) {
+    getUser(item.id).then(res=> {
+      const roleIds = [];
+      res.data.userRoles.map(item=> roleIds.push(item.roleId));
+      res.data.roleIds = roleIds;
+      useOpenModal(SysUserForm, {
+        detail: res.data,
+        onOk: onSearch
+      })
+    })
+  }
+
   const columns = [
     { title: '用户ID', dataIndex: 'id', width: 190, align: 'center' },
     { title: '用户名', dataIndex: 'username', align: 'center' },
@@ -62,7 +74,7 @@ function SysUsers() {
       render: (col, item) => (
         !item.adminFlag && (
           <div>
-            <Button className="operations-btn" type="text" size="mini" onClick={()=> {useOpenModal(SysUserForm, { detail: item, onOk: ()=> { onSearch('') } })}}>
+            <Button className="operations-btn" type="text" size="mini" onClick={()=> {onEdit(item)}}>
               编辑
             </Button>
             <Button className="operations-btn" type="text" status="danger" size="mini" onClick={()=> { onDelete(item.id) }}>

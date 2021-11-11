@@ -30,3 +30,7 @@ export const deleteRoleBatch = (ids) => {
 export const userChangePassword = (data) => {
     return request.post('/admin-backend/sys/user/changePassword', data)
 }
+
+export const getUser = (id) => {
+    return request.get(`/admin-backend/sys/user/getById/${id}`)
+}
