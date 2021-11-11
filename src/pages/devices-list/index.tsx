@@ -59,7 +59,7 @@ function DevicesList() {
             ()=> {useOpenModal(ConnectLog, { detail: item })}
           }>日志</Button>
           {
-            !item.is_superuser && (
+            !item.superuser && (
               <>
                 <Button className="operations-btn" type="text" status="danger" size="mini" onClick={()=> {onOperation(item.clientId, 'offline')}}>下线</Button>
                 <Button className="operations-btn" type="text" size="mini" onClick={
