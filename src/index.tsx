@@ -18,6 +18,26 @@ import checkLogin from './utils/checkLogin';
 
 const store = createStore(rootReducer);
 
+// function DebuggerChild(){
+//   const [count, setcount] = useState(0);
+//   return (
+//     <span style={{width: 200, height: 200, background: 'red',float: 'left'}} onClick={()=> {setcount(Math.random())}}>
+//       DebuggerChild{count}
+//     </span>
+//   )
+// }
+
+// function Debugger() {
+//   return (
+//     <div>
+//       <span style={{width: 200 , background: '#ccc',float: 'left'}}>
+//         debugger
+//         <DebuggerChild />
+//       </span>
+//     </div>
+//   )
+// }
+
 function Index() {
   const localeName = localStorage.getItem('arco-lang') || 'zh-CN';
 

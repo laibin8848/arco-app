@@ -23,10 +23,10 @@ function PbulistMsgList(props) {
   
   const columns = [
     { title: '主题', dataIndex: 'topic', width: 120, align: 'center', ellipsis: true },
-    { title: '客户端ID', dataIndex: 'from_client_id', align: 'center' },
-    { title: '用户名', dataIndex: 'from_username', align: 'center' },
-    { title: 'Qos', dataIndex: 'qos', align: 'center' },
-    { title: '内容', dataIndex: 'payload', align: 'center' },
+    { title: '客户端ID', dataIndex: 'from_client_id', width: 180, align: 'center' },
+    { title: '用户名', dataIndex: 'from_username', width: 150, align: 'center' },
+    { title: 'Qos', dataIndex: 'qos', width: 80, align: 'center' },
+    { title: '内容', dataIndex: 'payload', align: 'center', ellipsis: true },
     { title: '行为', dataIndex: 'action', align: 'center' },
   ];
 
@@ -83,7 +83,6 @@ function PbulistMsgList(props) {
           loading={{ loading: msgLoading, size: 18, dot: true, element: null }}
           onChange={onChangeTable}
           pagination={pagination}
-          scroll={{ x: 1400 }}
           // @ts-ignore
           columns={columns}
           data={msgListData?.list}

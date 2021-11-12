@@ -48,15 +48,15 @@ function ClientForm(props) {
           labelCol={{ style: { flexBasis: 100 } }}
           wrapperCol={{ style: { flexBasis: 'calc(100% - 100px)' } }}
         >
-          <FormItem disabled={detail.id !== undefined} label='客户端ID' initialValue={detail.clientId} field='clientId'>
+          <FormItem disabled={detail.id !== undefined} label='客户端ID' initialValue={detail.id} field='id'>
             <Input />
           </FormItem>
-          <FormItem initialValue={detail.username} label='用户名' field='username' rules={[{ required: true, message: '请输入用户名' }]}>
+          {/* <FormItem initialValue={detail.username} label='用户名' field='username' rules={[{ required: true, message: '请输入用户名' }]}>
             <Input placeholder='请输入用户名' />
           </FormItem>
           <FormItem label='密码' field='password' rules={[{ required: true, message: '请输入密码' }]}>
             <Input.Password placeholder='请输入密码' />
-          </FormItem>
+          </FormItem> */}
           <FormItem initialValue={detail.remark} label='设备信息' field='remark'>
             <Input.TextArea rows={4} placeholder='请输入设备信息' />
           </FormItem>

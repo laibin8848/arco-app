@@ -21,7 +21,7 @@ function ConnectLog(props) {
     { title: '协议版本号', dataIndex: 'protoVer', align: 'center' },
     { title: '完整内容', dataIndex: 'remark', align: 'center', width: 200, ellipsis: true },
     { title: '类型', dataIndex: 'type', align: 'center',
-      render: (col, item) => (item.type === 'connected' ? '在线' : '离线')
+      render: (col, item) => (item.type === 'connected' ? '上线' : '下线')
     },
   ];
 

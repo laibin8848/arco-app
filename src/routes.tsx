@@ -1,6 +1,6 @@
 import React from 'react';
 import { IconList, IconDesktop, 
-  IconRobot, IconStorage, IconUser, IconUserGroup  } from '@arco-design/web-react/icon';
+  IconRobot, IconStorage, IconUser, IconUserGroup, IconSettings, IconCodeSquare  } from '@arco-design/web-react/icon';
 
 export const defaultRoute = 'dashboard';
 
@@ -14,7 +14,7 @@ export const routes = [
   {
     name: '设备管理',
     key: 'devices-setting',
-    icon: <IconList />,
+    icon: <IconSettings />,
     children: [
       {
         name: '客户端列表',
@@ -27,6 +27,12 @@ export const routes = [
         key: 'devices-setting/devices-datalist',
         componentPath: 'publish-msg-list',
         icon: <IconStorage />
+      },
+      {
+        name: '密码管理',
+        key: 'devices-setting/devices-datalist',
+        componentPath: 'publish-msg-list',
+        icon: <IconCodeSquare />
       },
     ],
   },
