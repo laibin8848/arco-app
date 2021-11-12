@@ -15,3 +15,15 @@ export const mqttUserOffline = (clientId) => {
 export const mqttUserUpdate = (data) => {
     return request.post('/admin-backend/mqttUser/update', data)
 }
+
+export const addAccountUser = (data) => {
+    return request.post('/admin-backend/mqttUser/addAccountUser', data)
+}
+
+export const deleteUserAccount = (id) => {
+    return request.post(`/admin-backend/mqttUser/deleteUserAccount?id=${id}`)
+}
+
+export const updateAccountUser = (data) => {
+    return request.post('/admin-backend/mqttUser/updateAccountUser', data)
+}

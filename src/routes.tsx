@@ -29,9 +29,9 @@ export const routes = [
         icon: <IconStorage />
       },
       {
-        name: '密码管理',
-        key: 'devices-setting/devices-datalist',
-        componentPath: 'publish-msg-list',
+        name: '登录信息管理',
+        key: 'devices-setting/devices-password',
+        componentPath: 'devices-password',
         icon: <IconCodeSquare />
       },
     ],
