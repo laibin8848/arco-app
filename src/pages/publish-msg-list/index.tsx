@@ -28,6 +28,7 @@ function PbulistMsgList(props) {
     { title: 'Qos', dataIndex: 'qos', width: 80, align: 'center' },
     { title: '内容', dataIndex: 'payload', align: 'center', ellipsis: true },
     { title: '行为', dataIndex: 'action', align: 'center' },
+    { title: '时间', dataIndex: 'ts', align: 'center', width: 190 },
   ];
 
   const pagination = {

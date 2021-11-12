@@ -23,6 +23,7 @@ function ConnectLog(props) {
     { title: '类型', dataIndex: 'type', align: 'center',
       render: (col, item) => (item.type === 'connected' ? '上线' : '下线')
     },
+    { title: '时间', dataIndex: 'createTime', align: 'center', width: 190 },
   ];
 
   const pagination = {
