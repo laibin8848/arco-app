@@ -51,7 +51,7 @@ function PwdForm(props) {
           <FormItem style={{display: 'none'}} initialValue={detail.id} field='id'>
             <Input />
           </FormItem>
-          <FormItem initialValue={detail.username} label='用户名' field='username' rules={[{ required: true, message: '请输入用户名' }]}>
+          <FormItem disabled={detail.id} initialValue={detail.username} label='用户名' field='username' rules={[{ required: true, message: '请输入用户名' }]}>
             <Input placeholder='请输入用户名' />
           </FormItem>
           <FormItem label='密码' field='password' rules={[{ required: true, message: '请输入密码' }]}>
