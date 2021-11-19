@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table, Card, Modal, Badge } from '@arco-design/web-react';
 import { useTableQueryGet } from '../../hooks/useTableQuery';
 
@@ -11,6 +11,10 @@ function ConnectLog(props) {
     const { current , pageSize } = pagination;
     setFilter({ ...filter, current, pageSize });
   }
+
+  useEffect(()=> {
+    props.refreshTime && onChangeTable({current: 1, pageSize: 10})
+  }, [props.refreshTime])
 
   const columns = [
     { title: '客户端ID', dataIndex: 'clientId', width: 130, align: 'center' },

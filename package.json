@@ -73,8 +73,7 @@
     "redux": "^4.0.5"
   },
   "husky": {
-    "hooks": {
-    }
+    "hooks": {}
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [

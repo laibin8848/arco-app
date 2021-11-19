@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Breadcrumb, Card, Tabs, Button, Space, Modal, Message } from '@arco-design/web-react';
 import styles from './style/index.module.less';
 import ConnectLog from './connectLog';
 import history from '../../history';
 import { mqttUserOffline, publishInfo } from '../../services/devices';
+import LineChart from './lineChart';
 
 const TabPane = Tabs.TabPane;
 
 function DevicesDetail() {
   const detailId = history.location.state[0];
+  const [refreshTime, setRefreshTime] = useState(0);
 
   function onOperation(id) {
     Modal.confirm({
@@ -36,16 +38,16 @@ function DevicesDetail() {
               Message.success('操作成功！');
             })
           }}>获取设备信息</Button>
-          <Button type="primary" size="small" onClick={()=> {location.reload()}}>刷新</Button>
+          <Button type="primary" size="small" onClick={()=> {setRefreshTime(Math.random())}}>刷新</Button>
         </Space>
       </Card>
       <Card bordered={false}>
         <Tabs tabPosition="left">
           <TabPane key='log' title='日志'>
-            <ConnectLog detail={{clientId: detailId}} justTable="true" />
+            <ConnectLog detail={{clientId: detailId}} justTable="true" refreshTime={refreshTime} />
           </TabPane>
           <TabPane key='chart' title='统计'>
-            暂无统计~
+            <LineChart />
           </TabPane>
           {/* <TabPane key='base' title='基本信息'>
             前端可用内存：-IP地址：-MAC地址：-固件版本：-

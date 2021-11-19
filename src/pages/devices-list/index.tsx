@@ -135,7 +135,7 @@ function DevicesList() {
           <div className={styles.toolbar}>
             <Form style={{ width: '100%' }} layout="inline" form={searchForm}>
               <FormItem label='用户名：' field='username'><Input /></FormItem>
-              <FormItem label='客户端ID：' field='id'><Input /></FormItem>
+              <FormItem label='客户端ID：' field='clientId'><Input /></FormItem>
               <FormItem label='客户端类型：' field='userType'>
                 <Select>
                   <Option value="">所有</Option>

@@ -14,7 +14,7 @@ export default () => {
     <div className={styles.container}>
       <div className={styles.logo}>
         <Logo />
-        <div className={styles['logo-text']}>IOT Platform</div>
+        {/* <div className={styles['logo-text']}>IOT Platform</div> */}
       </div>
       <div className={styles.banner}>
         <div className={styles['banner-inner']}>

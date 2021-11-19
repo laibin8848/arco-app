@@ -7,7 +7,6 @@ import {
   Typography,
   Dropdown,
   Menu,
-  Space,
 } from '@arco-design/web-react';
 import { useSelector } from 'react-redux';
 import { IconUser } from '@arco-design/web-react/icon';
@@ -41,12 +40,7 @@ function Navbar() {
   return (
     <div className={styles.navbar}>
       <div className={styles.left}>
-        <Space size={8}>
-          <Logo />
-          <Typography.Title style={{ margin: 0, fontSize: 18 }} heading={5}>
-            IOT Platform
-          </Typography.Title>
-        </Space>
+        <div style={{padding: 20}}><Logo /></div>
       </div>
       <ul className={styles.right}>
         <li>
