@@ -1,18 +1,20 @@
-import React, { useState } from 'react';
-import { Table, Button, Input, Breadcrumb, Card, Form, Space, Select, Modal } from '@arco-design/web-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Table, Button, Input, Breadcrumb, Card, Form, Space, Select, Modal, Badge, Tag } from '@arco-design/web-react';
 import { IconPlus } from '@arco-design/web-react/icon';
 import styles from './style/index.module.less';
 import ClientForm from './form';
-import ConnectLog from './connectLog';
 import useOpenModal from '../../hooks/useOpenModal';
 import { useTableQueryGet } from '../../hooks/useTableQuery';
-import { mqttUserDelete, mqttUserOffline } from '../../services/devices';
+import { mqttUserDelete } from '../../services/devices';
 import PbulistMsgList from '../publish-msg-list';
+import history from '../../history';
+import CategoryTree from '../../components/CategoryTree';
 
 interface SysuserFilter {
   current: number;
   pageSize: number;
   username?: string;
+  clientCategoryId?: string;
 };
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -21,17 +23,19 @@ function DevicesList() {
   const [filter, setFilter] = useState<SysuserFilter>({ current: 1, pageSize: 10 });
   const { loading: userLoading, data: userListData } = useTableQueryGet('/admin-backend/mqttUser/listPage', filter);
 
+  const [cate, setCate] = useState([]);
+  const curCate = useRef('');
+
   function onChangeTable(pagination) {
     const { current , pageSize } = pagination;
-    setFilter({ current, pageSize });
+    setFilter({ ...filter, current, pageSize });
   }
 
-  function onOperation(id, type = '') {
-    const callApi = type === 'offline' ? mqttUserOffline : mqttUserDelete;
+  function onOperation(id) {
     Modal.confirm({
       title: '确定继续操作？',
       onOk: ()=> {
-        callApi(id).then(()=> {
+        mqttUserDelete(id).then(()=> {
           doSearchForm();
         })
       }
@@ -53,11 +57,12 @@ function DevicesList() {
         <Button type="text" size="mini" onClick={()=> {useOpenModal(showMsgList, { clientId: item.clientId })}}>{item.clientId}</Button>
       )
     },
+    { title: '类别', dataIndex: 'clientCategoryName', align: 'center' },
     { title: '用户名', dataIndex: 'username', align: 'center' },
     { title: '连接状态', dataIndex: 'connectStatus', align: 'center',
-      render: (col, item) => (item.connectStatus === 'connected' ? '在线' : '离线')
+      render: (col, item) => <Badge color={item.connectStatus === 'connected' ? 'green' : 'gray'} text={item.connectStatus === 'connected' ? '在线' : '离线'} />
     },
-    { title: '连接时间', dataIndex: 'connectTime', align: 'center' },
+    { title: '连接时间', dataIndex: 'connectTime', width: 180, align: 'center' },
     { title: 'IP地址', dataIndex: 'ip', align: 'center' },
     { title: '协议', dataIndex: 'protocol', align: 'center' },
     { title: '设备信息', dataIndex: 'remark', align: 'center' },
@@ -67,15 +72,17 @@ function DevicesList() {
       width: 180,
       fixed: 'right',
       align: 'center',
+      ellipsis: true,
       render: (col, item) => (
         <div>
           <Button className="operations-btn" type="text" size="mini" onClick={
-            ()=> {useOpenModal(ConnectLog, { detail: item })}
-          }>日志</Button>
+            ()=> {
+              history.push(`/devices-setting/devicesdetail?clientId=${item.clientId}`, [item.clientId])
+            }
+          }>详情</Button>
           {
             !item.superuser && (
               <>
-                <Button className="operations-btn" type="text" status="danger" size="mini" onClick={()=> {onOperation(item.clientId, 'offline')}}>下线</Button>
                 <Button className="operations-btn" type="text" size="mini" onClick={
                   ()=> {useOpenModal(ClientForm, { detail: item, onOk: ()=> { doSearchForm() } })}
                 }>修改</Button>
@@ -101,8 +108,13 @@ function DevicesList() {
     reset && searchForm.resetFields();
     const { current, pageSize } = filter;
     const parms = searchForm.getFieldsValue();
-    setFilter( {current, pageSize, ...parms} );
+    setFilter( { ...filter, current, pageSize, ...parms} );
   }
+
+  useEffect(()=> {
+    cate[0] &&
+      setFilter({...filter, clientCategoryId: cate[0]})
+  }, [cate])
 
   return (
     <div className={styles.container}>
@@ -110,46 +122,71 @@ function DevicesList() {
         <Breadcrumb.Item>设备管理</Breadcrumb.Item>
         <Breadcrumb.Item>客户端列表</Breadcrumb.Item>
       </Breadcrumb>
-      <Card bordered={false}>
-        <div className={styles.toolbar}>
-          <Form style={{ width: '100%' }} layout="inline" form={searchForm}>
-            <FormItem label='客户端ID：' field='id'><Input /></FormItem>
-            <FormItem label='用户名：' field='username'><Input /></FormItem>
-            <FormItem label='连线状态：' field='connectStatus'>
-              <Select>
-                <Option value="">所有</Option>
-                <Option value="connected">在线</Option>
-                <Option value="disconnected">离线</Option>
-              </Select>
-            </FormItem>
-            <FormItem label='IP地址：' field='ip'><Input /></FormItem>
-            <FormItem>
-              <Space>
-                <Button size="small" type="primary" icon={<IconPlus />} onClick={()=> {useOpenModal(ClientForm, { onOk: ()=> { doSearchForm() } })}}>
-                  新增客户端
-                </Button>
-                <Button size="small" type="primary" onClick={()=> {doSearchForm(true)}}>
-                  重置
-                </Button>
-                <Button size="small" type="primary" onClick={()=> {doSearchForm()}}>
-                  查询
-                </Button>
-              </Space>
-            </FormItem>
-          </Form>
-        </div>
-        <Table
-          borderCell
-          rowKey="id"
-          loading={{ loading: userLoading, size: 18, dot: true, element: null }}
-          onChange={onChangeTable}
-          pagination={pagination}
-          scroll={{ x: 1400 }}
-          // @ts-ignore
-          columns={columns}
-          data={userListData?.records}
-        />
-      </Card>
+      <div style={{display: 'flex'}}>
+        <Card bordered={false} style={{marginRight: 6}}>
+          <CategoryTree showLine editable style={{width: 280}} selectable selectedKeys={cate} onSelect={
+            (sel, {selectedNodes})=> {
+              curCate.current = selectedNodes[0] ? selectedNodes[0].props.title || '' : '';
+              setCate(sel)
+            }
+          }/>
+        </Card>
+        <Card bordered={false} style={{overflow: 'hidden'}}>
+          <div className={styles.toolbar}>
+            <Form style={{ width: '100%' }} layout="inline" form={searchForm}>
+              <FormItem label='用户名：' field='username'><Input /></FormItem>
+              <FormItem label='客户端ID：' field='id'><Input /></FormItem>
+              <FormItem label='客户端类型：' field='userType'>
+                <Select>
+                  <Option value="">所有</Option>
+                  <Option value="client">客户端</Option>
+                  <Option value="server">服务端</Option>
+                </Select>
+              </FormItem>
+              <FormItem label='连线状态：' field='connectStatus'>
+                <Select>
+                  <Option value="">所有</Option>
+                  <Option value="connected">在线</Option>
+                  <Option value="disconnected">离线</Option>
+                </Select>
+              </FormItem>
+              <FormItem label='IP地址：' field='ip'><Input /></FormItem>
+              <FormItem>
+                <Space>
+                  <Button size="small" type="primary" icon={<IconPlus />} onClick={()=> {useOpenModal(ClientForm, { onOk: ()=> { doSearchForm() } })}}>
+                    新增客户端
+                  </Button>
+                  <Button size="small" type="secondary" onClick={()=> {doSearchForm(true)}}>
+                    重置
+                  </Button>
+                  <Button size="small" type="secondary" onClick={()=> {doSearchForm()}}>
+                    查询
+                  </Button>
+                  {
+                    filter.clientCategoryId && (
+                      <Tag color="#ff7d00" closable onClose={()=> {
+                        setCate(['']);
+                        setFilter({...filter, clientCategoryId: ''});
+                      }}>当前分类：{curCate.current}</Tag>
+                    )
+                  }
+                </Space>
+              </FormItem>
+            </Form>
+          </div>
+          <Table
+            borderCell
+            rowKey="id"
+            loading={{ loading: userLoading, size: 18, dot: true, element: null }}
+            onChange={onChangeTable}
+            pagination={pagination}
+            scroll={{ x: 1400 }}
+            // @ts-ignore
+            columns={columns}
+            data={userListData?.records}
+          />
+        </Card>
+      </div>
     </div>
   );
 }

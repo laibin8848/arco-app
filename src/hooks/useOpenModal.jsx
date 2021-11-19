@@ -43,12 +43,11 @@ function useOpenModal(MyModal, config) {
   }
 
   function close() {
-    destroy();
-    // render({
-    //   ...currentConfig,
-    //   visible: false,
-    //   afterClose: destroy,
-    // });
+    render({
+      ...currentConfig,
+      visible: false,
+      afterClose: destroy,
+    });
   }
 
   render(currentConfig);

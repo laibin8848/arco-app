@@ -47,6 +47,7 @@ function renderRoutes(locale, userInfo) {
   if (permissions.length === 0 && !adminFlag) return null;
   function travel(_routes, level) {
     return _routes.map((route) => {
+      if(route.hidden) return;
       if (!permissions.includes(route.key) && !adminFlag && route.key !== 'dashboard') return;
       const titleDom = (
         <>

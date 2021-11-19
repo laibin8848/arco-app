@@ -1,16 +1,46 @@
 import React, { memo, useState, useEffect } from 'react';
-import { Button, Tree, Modal, Spin } from '@arco-design/web-react';
-import { IconPlus, IconDelete, IconEmpty, IconEdit } from '@arco-design/web-react/icon';
+import { Button, Tree, Modal, Spin, Empty, TreeSelect } from '@arco-design/web-react';
+import { IconPlus, IconDelete, IconEdit } from '@arco-design/web-react/icon';
 import MenuForm from './form';
 import useOpenModal from '../../hooks/useOpenModal';
-import { getMenuTree, deleteMenu } from '../../services/menus';
+import { listCategoryTree, deleteCategory } from '../../services/category';
 
-function MenuTree(props) {
+const generatorTreeNodes = (treeData) => {
+  return treeData.map((item) => {
+    const { children, id, categoryName } = item;
+    const restProps = { dataRef: item };
+    return (
+      <Tree.Node key={id} title={categoryName} {...restProps}>
+        {children ? generatorTreeNodes(item.children) : null}
+      </Tree.Node>
+    );
+  });
+};
+
+export function CategoryTreeSelect(props) {
+  const [treeList, setTreeList] = useState([]);
+  const [val, setVal] = useState(props.defaultValue);
+
+  useEffect(()=> {
+    listCategoryTree().then(res=> {setTreeList(res.data)});
+  }, []);
+
+  function onChange(val) {
+    props.onChange(val)
+    setVal(val)
+  }
+
+  return (
+    <TreeSelect treeData={treeList} onChange={onChange} value={val} fieldNames={{ key: 'id', title: 'categoryName' }} />
+  )
+};
+
+function CategoryTree(props) {
   const [treeList, setTreeList] = useState([]);
   const [treeLoading, setTreeLoading] = useState(true);
 
   function fetchMenuList() {
-    getMenuTree().then(res=> {
+    listCategoryTree().then(res=> {
       setTreeLoading(false);
       setTreeList(res.data || []);
     });
@@ -20,23 +50,11 @@ function MenuTree(props) {
     fetchMenuList();
   }, []);
 
-  const generatorTreeNodes = (treeData) => {
-    return treeData.map((item) => {
-      const { children, id, menuName } = item;
-      const restProps = { dataRef: item };
-      return (
-        <Tree.Node key={id} title={menuName} {...restProps}>
-          {children ? generatorTreeNodes(item.children) : null}
-        </Tree.Node>
-      );
-    });
-  };
-
   function onDelete(id = '') {
     Modal.confirm({
       title: '确定继续操作？',
       onOk: ()=> {
-        deleteMenu(id).then(()=> {
+        deleteCategory(id).then(()=> {
           fetchMenuList();
         });
       }
@@ -54,8 +72,8 @@ function MenuTree(props) {
     <>
       {
         props.editable && (
-          <div style={{textAlign: 'right', marginBottom: '10px'}}>
-            <Button type="primary" onClick={()=> {useOpenModal(MenuForm, { detail: { parentId: 0 }, onOk: fetchMenuList })}}>添加顶级菜单</Button>
+          <div style={{marginBottom: '10px'}}>
+            <Button type="primary" onClick={()=> {useOpenModal(MenuForm, { detail: { parentId: 0 }, onOk: fetchMenuList })}}>添加分类</Button>
           </div>
         )
       }
@@ -91,16 +109,10 @@ function MenuTree(props) {
           >
             {generatorTreeNodes(treeList)}
           </Tree>
-        :
-            (
-              <div style={{textAlign: 'center'}}>
-                暂无数据~<br />
-                <IconEmpty style={{fontSize: 58}} />
-              </div>
-            )
+        : <Empty />
       }
     </>
   )
 }
 
-export default memo(MenuTree);
+export default memo(CategoryTree);

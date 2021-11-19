@@ -20,7 +20,7 @@ function DevicesPwdList() {
 
   function onChangeTable(pagination) {
     const { current , pageSize } = pagination;
-    setFilter({ current, pageSize });
+    setFilter({ ...filter, current, pageSize });
   }
 
   function onOperation(id, type = '') {
@@ -35,6 +35,7 @@ function DevicesPwdList() {
   }
 
   const columns = [
+    { title: 'ID', dataIndex: 'id', align: 'center', width: 80 },
     { title: '用户名', dataIndex: 'username', align: 'center' },
     {
       title: '操作',

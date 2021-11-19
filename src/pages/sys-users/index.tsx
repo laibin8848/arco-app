@@ -20,7 +20,7 @@ function SysUsers() {
 
   function onChangeTable(pagination) {
     const { current , pageSize } = pagination;
-    setFilter({ current, pageSize });
+    setFilter({ ...filter, current, pageSize });
   }
 
   function onSearch(username = '') {

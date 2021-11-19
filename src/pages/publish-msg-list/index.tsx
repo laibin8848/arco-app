@@ -18,7 +18,7 @@ function PbulistMsgList(props) {
 
   function onChangeTable(pagination) {
     const { current , pageSize } = pagination;
-    setFilter({ current, pageSize });
+    setFilter({ ...filter, current, pageSize });
   }
   
   const columns = [
@@ -28,7 +28,7 @@ function PbulistMsgList(props) {
     { title: 'Qos', dataIndex: 'qos', width: 80, align: 'center' },
     { title: '内容', dataIndex: 'payload', align: 'center', ellipsis: true },
     { title: '行为', dataIndex: 'action', align: 'center' },
-    { title: '时间', dataIndex: 'ts', align: 'center', width: 190 },
+    { title: '时间', dataIndex: 'publishTimeStr', align: 'center', width: 190 },
   ];
 
   const pagination = {
@@ -58,26 +58,22 @@ function PbulistMsgList(props) {
         )
       }
       <Card bordered={false}>
-        {
-          !byClientId && (
-            <div className={styles.toolbar}>
-              <Form style={{ width: '100%' }} layout="inline" form={searchForm}>
-                <FormItem label='主题' field='topic'><Input /></FormItem>
-                <FormItem label='客户端ID' field='clientId'><Input /></FormItem>
-                <FormItem>
-                  <Space>
-                    <Button size="small" type="primary" onClick={()=> {doSearchForm(true)}}>
-                      重置
-                    </Button>
-                    <Button size="small" type="primary" onClick={()=> {doSearchForm()}}>
-                      查询
-                    </Button>
-                  </Space>
-                </FormItem>
-              </Form>
-            </div>
-          )
-        }
+        <div className={styles.toolbar}>
+          <Form style={{ width: '100%' }} layout="inline" form={searchForm}>
+            <FormItem label='主题' field='topic'><Input /></FormItem>
+            <FormItem initialValue={byClientId || ''} disabled={byClientId} label='客户端ID' field='clientId'><Input /></FormItem>
+            <FormItem>
+              <Space>
+                <Button size="small" type="primary" onClick={()=> {doSearchForm(true)}}>
+                  重置
+                </Button>
+                <Button size="small" type="primary" onClick={()=> {doSearchForm()}}>
+                  查询
+                </Button>
+              </Space>
+            </FormItem>
+          </Form>
+        </div>
         <Table
           borderCell
           rowKey="id"
@@ -86,6 +82,7 @@ function PbulistMsgList(props) {
           pagination={pagination}
           // @ts-ignore
           columns={columns}
+          scroll={{ x: 1400 }}
           data={msgListData?.list}
         />
       </Card>

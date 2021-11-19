@@ -1,5 +1,5 @@
 import React, { useState, memo } from 'react';
-import { Form, Input, Modal, Select } from '@arco-design/web-react';
+import { Form, Input, Modal, Select, Message } from '@arco-design/web-react';
 import { saveMenu } from '../../services/menus';
 
 const FormItem = Form.Item;
@@ -24,6 +24,7 @@ function MenuForm(props) {
       const postData = { ...detail, ...values };
       setConfirmLoading(true);
       saveMenu(postData).then(()=> {
+        Message.success('菜单树刷新……')
         onOk();
       }).finally(()=> {
         setConfirmLoading(false);

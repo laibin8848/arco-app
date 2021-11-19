@@ -27,3 +27,7 @@ export const deleteUserAccount = (id) => {
 export const updateAccountUser = (data) => {
     return request.post('/admin-backend/mqttUser/updateAccountUser', data)
 }
+
+export const publishInfo = (clientId) => {
+    return request.post(`/admin-backend/producer/publishInfo?clientId=${clientId}`)
+}

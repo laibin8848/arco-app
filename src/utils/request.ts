@@ -24,8 +24,11 @@ service.interceptors.response.use(
       if (res.code === 'E503' || res.code === 'E401') {
         localStorage.removeItem('token');
         localStorage.removeItem('loginUserId');
-        history.push('/user/login');
-        return res;
+        Notification.error({ title: '错误', content: res.message });
+        setTimeout(()=> {
+          history.push('/user/login');
+          return res;
+        }, 3000)
       }
       Notification.error({ title: '错误', content: res.message });
       throw new Error(res.message);

@@ -23,13 +23,20 @@ export const routes = [
         icon: <IconRobot />
       },
       {
+        name: '客户端详情',
+        key: 'devices-setting/devicesdetail',
+        componentPath: 'devices-list/detail',
+        hidden: true
+      },
+      {
         name: '发布消息列表',
         key: 'devices-setting/devices-datalist',
         componentPath: 'publish-msg-list',
-        icon: <IconStorage />
+        icon: <IconStorage />,
+        hidden: true
       },
       {
-        name: '登录信息管理',
+        name: '登录管理',
         key: 'devices-setting/devices-password',
         componentPath: 'devices-password',
         icon: <IconCodeSquare />

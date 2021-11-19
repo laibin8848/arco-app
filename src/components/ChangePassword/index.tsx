@@ -56,7 +56,7 @@ function ChangePassword(props) {
           <FormItem label='新密码' field='newPassword' rules={[{ required: true, message: '请输入新密码' }]}>
             <Input placeholder='请输入新密码' />
           </FormItem>
-          <FormItem label='确认新密码' field='passwordConfirm' rules={[{ 
+          <FormItem label='确认新密码' field='passwordConfirm' rules={[{ required: true, message: '请确认新密码' }, { 
             validator(value, cb) {
               if (value !== form.getFieldValue('newPassword')) {
                 return cb('两次输入的密码不一致')

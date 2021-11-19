@@ -74,7 +74,7 @@ function SysUserForm(props) {
           <FormItem initialValue={detail.realName} label='真实姓名' field='realName' rules={[{ required: true, message: '请输入真实姓名' }]}>
             <Input placeholder='请输入真实姓名' />
           </FormItem>
-          <FormItem label='角色' field='roleIds' rules={[{ required: true, message: '请选择角色' }]}>
+          <FormItem initialValue={detail.roleIds} label='角色' field='roleIds' rules={[{ required: true, message: '请选择角色' }]}>
             <RoleSelecter mode="multiple" defaultValue={detail.roleIds || []} onChange={onRoleSlect} />
           </FormItem>
         </Form>
