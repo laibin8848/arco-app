@@ -11,6 +11,7 @@
   },
   "devDependencies": {
     "@arco-design/arco-scripts": "^1.13.3",
+    "@arco-design/web-react": "^2.0.0",
     "@arco-design/webpack-plugin": "^1.5.2",
     "@babel/plugin-transform-react-jsx-source": "^7.12.1",
     "@svgr/core": "4.3.1",
@@ -47,8 +48,7 @@
     "stylelint-config-standard": "^20.0.0",
     "terser-webpack-plugin": "^2.3.2",
     "typescript": "^3.6.3",
-    "webpack-bundle-analyzer": "^3.6.0",
-    "@arco-design/web-react": "^2.0.0"
+    "webpack-bundle-analyzer": "^3.6.0"
   },
   "dependencies": {
     "@arco-design/color": "^0.4.0",

@@ -45,7 +45,7 @@ function MenuTree(props) {
   if(treeLoading) {
     return (
       <div style={{textAlign: 'center',padding: '10px'}}>
-        <Spin dot size={24} />
+        <Spin dot size={18} />
       </div>
     )
   }

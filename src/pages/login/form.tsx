@@ -59,7 +59,7 @@ export default function LoginForm() {
 
   return (
     <div className={styles['login-form-wrapper']}>
-      <div className={styles['login-form-title']}>登录 IOT Platform</div>
+      <div className={styles['login-form-title']}>登录 粤云IOT</div>
       <div className={styles['login-sub-title']}>&nbsp;</div>
       <Form className={styles['login-form']} layout="vertical" form={form} onSubmit={onSubmit}>
         {/* <Form.Item field="checkKey" style={{display: 'none'}}>

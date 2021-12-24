@@ -1,5 +1,5 @@
 import React from 'react';
-import { IconList, IconDesktop, 
+import { IconList, IconDesktop, IconMobile,
   IconRobot, IconStorage, IconUser, IconUserGroup, IconSettings, IconCodeSquare  } from '@arco-design/web-react/icon';
 
 export const defaultRoute = 'dashboard';
@@ -18,15 +18,27 @@ export const routes = [
     children: [
       {
         name: '客户端列表',
-        key: 'devices-setting/deviceslist',
-        componentPath: 'devices-list',
-        icon: <IconRobot />
+        key: 'clients/list',
+        componentPath: 'clients',
+        icon: <IconMobile />
       },
       {
         name: '客户端详情',
-        key: 'devices-setting/devicesdetail',
-        componentPath: 'devices-list/detail',
+        key: 'clients/detail',
+        componentPath: 'clients/detail',
         hidden: true
+      },
+      {
+        name: 'iot设备管理',
+        key: 'devices/list',
+        componentPath: 'devices',
+        icon: <IconRobot />
+      },
+      {
+        name: '规则组件',
+        key: 'rules/edit',
+        componentPath: 'rules/edit',
+        icon: <IconRobot />
       },
       {
         name: '发布消息列表',

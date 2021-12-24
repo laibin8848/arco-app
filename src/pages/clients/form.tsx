@@ -1,7 +1,6 @@
 import React, { useState, memo } from 'react';
 import { Form, Input, Modal } from '@arco-design/web-react';
-import { mqttUserAdd, mqttUserUpdate } from '../../services/devices';
-import { CategoryTreeSelect } from '../../components/CategoryTree';
+import { mqttUserAdd, mqttUserUpdate } from '../../services/clients';
 
 const FormItem = Form.Item;
 
@@ -54,9 +53,6 @@ function ClientForm(props) {
           </FormItem>
           <FormItem disabled={detail.clientId !== undefined} label='客户端ID' rules={[{ required: true, message: '请输入客户端ID' }]} initialValue={detail.clientId} field='clientId'>
             <Input />
-          </FormItem>
-          <FormItem label='分类' rules={[{ required: true, message: '请选择分类' }]} initialValue={detail.clientCategoryId} field='clientCategoryId'>
-            <CategoryTreeSelect defaultValue={detail.clientCategoryId || ''} onChange={val => form.setFieldValue('clientCategoryId', val)} />
           </FormItem>
           <FormItem initialValue={detail.remark} label='设备信息' field='remark'>
             <Input.TextArea rows={4} placeholder='请输入设备信息' />

@@ -28,7 +28,7 @@ service.interceptors.response.use(
         setTimeout(()=> {
           history.push('/user/login');
           return res;
-        }, 1500)
+        }, 500)
       }
       Notification.error({ title: '错误', content: res.message });
       throw new Error(res.message);

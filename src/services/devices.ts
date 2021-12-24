@@ -1,33 +1,17 @@
 import request from "../utils/request";
 
-export const mqttUserAdd = (data) => {
-    return request.post('/admin-backend/mqttUser/add', data)
+export const deviceAdd = (data) => {
+    return request.post('/admin-backend/device', data)
 }
 
-export const mqttUserDelete = (id) => {
-    return request.post(`/admin-backend/mqttUser/delete?id=${id}`)
+export const deviceUpdate = (data) => {
+    return request.put('/admin-backend/device', data)
 }
 
-export const mqttUserOffline = (clientId) => {
-    return request.post(`/admin-backend/mqttUser/offline?clientId=${clientId}`)
+export const deviceDtuRelSet = (data) => {
+    return request.post('/admin-backend/deviceDtuRel', data)
 }
 
-export const mqttUserUpdate = (data) => {
-    return request.post('/admin-backend/mqttUser/update', data)
-}
-
-export const addAccountUser = (data) => {
-    return request.post('/admin-backend/mqttUser/addAccountUser', data)
-}
-
-export const deleteUserAccount = (id) => {
-    return request.post(`/admin-backend/mqttUser/deleteUserAccount?id=${id}`)
-}
-
-export const updateAccountUser = (data) => {
-    return request.post('/admin-backend/mqttUser/updateAccountUser', data)
-}
-
-export const publishInfo = (clientId) => {
-    return request.post(`/admin-backend/producer/publishInfo?clientId=${clientId}`)
+export const deviceDtuRelStatus = (data) => {
+    return request.put('/admin-backend/deviceDtuRel', data)
 }

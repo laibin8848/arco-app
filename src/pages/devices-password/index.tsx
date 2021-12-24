@@ -5,7 +5,7 @@ import styles from './style/index.module.less';
 import PwdForm from './form';
 import useOpenModal from '../../hooks/useOpenModal';
 import { useTableQueryGet } from '../../hooks/useTableQuery';
-import { deleteUserAccount } from '../../services/devices';
+import { deleteUserAccount } from '../../services/clients';
 
 interface DevicePwdFilter {
   current: number;

@@ -17,7 +17,7 @@ function ConnectLog(props) {
   }, [props.refreshTime])
 
   const columns = [
-    { title: '客户端ID', dataIndex: 'clientId', width: 130, align: 'center' },
+    // { title: '客户端ID', dataIndex: 'clientId', width: 130, align: 'center' },
     { title: '协议版本号', dataIndex: 'protoVer', width: 150, align: 'center',
       render: (col, item) => item.type === 'connected' ? `${item.protoName}:${item.protoVer}` : ''
     },
